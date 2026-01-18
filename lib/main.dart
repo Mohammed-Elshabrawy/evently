@@ -14,7 +14,7 @@ void main() async {
   
   final appSettingProvider = AppSettingProvider();
   appSettingProvider.loadTheme();
-  appSettingProvider.loadLang(); // Load language data
+  appSettingProvider.loadLang();
 
   runApp(
     ChangeNotifierProvider(
@@ -22,7 +22,6 @@ void main() async {
       child: Consumer<AppSettingProvider>(
         builder: (context, provider, child) {
           return EasyLocalization(
-            // Use values from provider (which now have defaults to prevent crashes)
             supportedLocales: const [Locale('en'), Locale('ar')],
             path: 'assets/translations',
             fallbackLocale: const Locale('en'),
