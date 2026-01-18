@@ -5,7 +5,6 @@ import 'package:evently/pages/settings_screen/widget/custom_elevated_button.dart
 import 'package:evently/utils/app_routes.dart';
 import 'package:evently/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_setting_provider.dart';
 import '../../utils/app_assets.dart';
@@ -20,7 +19,6 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class OnBoardingScreenState extends State<OnBoardingScreen> {
-  final introKey = GlobalKey<IntroductionScreenState>();
   int currentIndex = 0;
 
   String _getImageByMode({
