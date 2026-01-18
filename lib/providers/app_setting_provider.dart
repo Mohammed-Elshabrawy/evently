@@ -30,23 +30,18 @@ class AppSettingProvider extends ChangeNotifier {
   Future<void> saveTheme(bool newIsLight) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLight', newIsLight);
-    print("new isLight =$newIsLight");
     notifyListeners();
   }
 
   Future<void> saveLang(bool newIsEnglish) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isEnglish', newIsEnglish);
-    print("new isEnglish =$newIsEnglish");
-
     notifyListeners();
   }
 
   void loadTheme() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     isLight = prefs.getBool('isLight') ?? true;
-    print(prefs.getBool('isLight'));
-
     notifyListeners();
   }
 
@@ -55,12 +50,9 @@ class AppSettingProvider extends ChangeNotifier {
     isEnglish = prefs.getBool('isEnglish') ?? Platform.localeName == 'en'
         ? true
         : false;
-   await prefs.getBool('isEnglish') == true
+   prefs.getBool('isEnglish') == true
         ? context.setLocale(Locale("en"))
         : context.setLocale(Locale("ar"));
-
-    print("lange ${prefs.getBool('isEnglish')}");
-
     notifyListeners();
   }
 }
