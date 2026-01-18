@@ -57,6 +57,14 @@ class _ToggleWidgetState extends State<ToggleWidget> {
                   ? AppColors.whiteColor
                   : AppColors.darkStrokeColor,
               borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                width: 2,
+                color: isEnabled
+                    ? AppColors.transparentColor
+                    : appSettingsProvider.isLight
+                    ? AppColors.strokeColor
+                    : AppColors.darkStrokeColor,
+              ),
             ),
             child: isLang
                 ? Text(
@@ -102,6 +110,14 @@ class _ToggleWidgetState extends State<ToggleWidget> {
                   ? AppColors.whiteColor
                   : AppColors.darkStrokeColor,
               borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                width: 2,
+                color: isEnabled
+                    ? AppColors.transparentColor
+                    : appSettingsProvider.isLight
+                    ? AppColors.strokeColor
+                    : AppColors.darkStrokeColor,
+              ),
             ),
             child: isLang
                 ? Text(

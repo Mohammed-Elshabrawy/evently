@@ -5,6 +5,12 @@ class AppAssets {
 
   static const String onBoardingLightPath = "assets/images/onboarding/light";
   static const String onBoardingDarkPath = "assets/images/onboarding/dark";
+  static const String onBoarding2light = "$onBoardingLightPath/onB2light.png";
+  static const String onBoarding2dark = "$onBoardingDarkPath/onB2dark.png";
+  static const String onBoarding3light = "$onBoardingLightPath/onB3light.png";
+  static const String onBoarding3dark = "$onBoardingDarkPath/onB3dark.png";
+  static const String onBoarding4light = "$onBoardingLightPath/onB4light.png";
+  static const String onBoarding4dark = "$onBoardingDarkPath/onB4dark.png";
   static const settingsLight = "$onBoardingLightPath/oB1light.png";
   static const settingsDark = "$onBoardingDarkPath/onB1dark.png";
 }
