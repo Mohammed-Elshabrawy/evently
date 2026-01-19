@@ -43,5 +43,6 @@
   "favorite": "Favorite",
   "profile": "Profile",
   "dark_mode": "Dark mode",
-  "logout": "Logout"
+  "logout": "Logout",
+  "search_for_event": "Search for an event"
 }

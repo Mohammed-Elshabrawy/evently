@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/pages/home_layout/tabs/favorite_tab/favorite_tab.dart';
 import 'package:evently/pages/home_layout/tabs/home_tab/home_screen.dart';
 import 'package:evently/pages/home_layout/tabs/profile_tab/profile_tab.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class HomeLayout extends StatefulWidget {
 }
 
 class _HomeLayoutState extends State<HomeLayout> {
-  final List<Widget> tabs = [HomeTab(), HomeTab(), ProfileTab()];
+  final List<Widget> tabs = [HomeTab(), FavoriteTab(), ProfileTab()];
 
   int currentInex = 0;
 
