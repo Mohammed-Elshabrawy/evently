@@ -5,6 +5,10 @@ import 'app_text_styles.dart';
 
 class AppTheme {
  static final ThemeData lightTheme =ThemeData(
+   appBarTheme: AppBarTheme(
+     leadingWidth: 85 ,
+     backgroundColor: AppColors.bgColor,
+   ),
    textTheme: TextTheme(
      headlineMedium: AppTextStyles.sB20.copyWith(
        color: AppColors.mainTextColor,
@@ -19,6 +23,10 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.bgColor
   );
  static final ThemeData darkTheme =ThemeData(
+     appBarTheme: AppBarTheme(
+       leadingWidth: 85 ,
+       backgroundColor: AppColors.darkBGColor,
+     ),
      textTheme: TextTheme(
          headlineMedium: AppTextStyles.sB20.copyWith(
            color: AppColors.whiteColor,

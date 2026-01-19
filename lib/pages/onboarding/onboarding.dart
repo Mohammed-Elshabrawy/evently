@@ -1,15 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/pages/onboarding/widget/dots_row.dart';
-import 'package:evently/pages/settings_screen/widget/custom_elevated_button.dart';
+import 'package:evently/widget/custom_elevated_button.dart';
 import 'package:evently/utils/app_routes.dart';
 import 'package:evently/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../functions/get_image/get_image.dart';
 import '../../providers/app_setting_provider.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/responsive.dart';
+import '../../widget/leading_icon.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -20,14 +22,6 @@ class OnBoardingScreen extends StatefulWidget {
 
 class OnBoardingScreenState extends State<OnBoardingScreen> {
   int currentIndex = 0;
-
-  String _getImageByMode({
-    required String light,
-    required String dark,
-    required bool isLight,
-  }) {
-    return isLight ? light : dark;
-  }
 
   List<String> imagesLight = [
     AppAssets.onBoarding2light,
@@ -57,44 +51,19 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
         centerTitle: true,
         leading: Visibility(
           visible: currentIndex != 0,
-          child: Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 16 * context.screenWidthRatio,
-              vertical: 2 * context.screenHeightRatio,
-            ),
-            padding: EdgeInsets.all(4 * context.screenWidthRatio),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: appSettingsProvider.isLight
-                  ? AppColors.whiteColor
-                  : AppColors.inputsColor,
-              border: Border.all(
-                color: appSettingsProvider.isLight
-                    ? AppColors.strokeColor
-                    : AppColors.darkStrokeColor,
-                width: 1,
-              ),
-            ),
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  carouselController.previousPage(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.linear,
-                  );
-                });
-              },
-              icon: Icon(
-                Icons.arrow_back_ios_new_outlined,
-                color: appSettingsProvider.isLight
-                    ? AppColors.mainColor
-                    : AppColors.whiteColor,
-              ),
-            ),
+          child: LeadingIcon(
+            onPressed: () {
+              setState(() {
+                carouselController.previousPage(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.linear,
+                );
+              });
+            },
           ),
         ),
         title: Image.asset(
-          _getImageByMode(
+          getImageByMode(
             light: AppAssets.logoLight,
             dark: AppAssets.logoDark,
             isLight: appSettingsProvider.isLight,
@@ -125,7 +94,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                 ),
                 child: Text(
-                  "skip",
+                  "skip".tr(),
                   style: AppTextStyles.sB14.copyWith(
                     color: appSettingsProvider.isLight
                         ? AppColors.mainColor
@@ -151,7 +120,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   spacing: 16 * context.screenHeightRatio,
                   children: [
                     Image.asset(
-                      _getImageByMode(
+                      getImageByMode(
                         light: imagesLight[i],
                         dark: imagesDark[i],
                         isLight: appSettingsProvider.isLight,
@@ -176,7 +145,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                     Spacer(),
                     CustomElevatedButton(
-                      text: i != 2 ? 'next'.tr() : 'get_started'.tr(),
+                      text: i != 2 ? 'next' : 'get_started',
                       onButtonPressed: () {
                         if (i != 2) {
                           setState(() {
