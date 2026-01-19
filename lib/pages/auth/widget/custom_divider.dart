@@ -11,7 +11,6 @@ class CustomDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
-
     return Stack(
       alignment: Alignment.center,
       children: [

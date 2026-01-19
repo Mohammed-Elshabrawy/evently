@@ -15,5 +15,7 @@ class AppAssets {
   static const String settingsDark = "$onBoardingDarkPath/onB1dark.png";
   static const String authLight = "assets/images/auth/FBlight.png";
   static const String authDark = "assets/images/auth/FBdark.png";
+  static const String profile = "assets/images/profile_tab/circle_logo_light.png";
+
 
 }

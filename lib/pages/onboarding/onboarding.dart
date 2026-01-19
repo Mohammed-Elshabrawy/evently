@@ -74,7 +74,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
             visible: currentIndex != 2,
             child: InkWell(
               onTap: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+                Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(
@@ -157,7 +157,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                         } else if (i == 2) {
                           Navigator.pushReplacementNamed(
                             context,
-                            AppRoutes.homeRoute,
+                            AppRoutes.loginRoute,
                           );
                         }
                       },

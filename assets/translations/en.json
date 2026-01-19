@@ -28,7 +28,7 @@
   "sign_up_with_Google": "Sign up with Google",
   "forget_password": "Forget Password?",
   "reset_password": "Reset password",
-  "welcome_back": "Welcome Back",
+  "welcome_back": "Welcome Back✨",
   "all": "All",
   "sport": "Sport",
   "login_to_your_account": "Log in to your account",
@@ -38,6 +38,10 @@
   "meeting": "Meeting",
   "exhibition": "Exhibition",
   "eating": "Eating",
-  "or": "Or"
-
+  "or": "Or",
+  "home": "Home",
+  "favorite": "Favorite",
+  "profile": "Profile",
+  "dark_mode": "Dark mode",
+  "logout": "Logout"
 }
