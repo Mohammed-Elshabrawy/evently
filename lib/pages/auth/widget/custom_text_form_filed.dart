@@ -8,15 +8,17 @@ import '../../../utils/app_text_styles.dart';
 class CustomTextFormFiled extends StatelessWidget {
   const CustomTextFormFiled({
     super.key,
-    required this.prefix,
+    this.prefix,
     required this.hintText,
     this.suffix,
     required this.keyboardType,
+    this.suffixColor,
   });
-  final IconData prefix;
+  final IconData? prefix;
   final String hintText;
   final IconData? suffix;
   final TextInputType keyboardType;
+  final Color? suffixColor;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,9 @@ class CustomTextFormFiled extends StatelessWidget {
       ),
       keyboardType: keyboardType,
       decoration: InputDecoration(
-        prefixIcon: Icon(prefix, color: AppColors.disableColor),
+        prefixIcon: prefix != null
+            ? Icon(prefix, color: AppColors.disableColor)
+            : null,
         filled: true,
         fillColor: appSettingsProvider.isLight
             ? AppColors.whiteColor
@@ -57,7 +61,10 @@ class CustomTextFormFiled extends StatelessWidget {
                 onTap: () {
                   //Todo: add password visibility
                 },
-                child: Icon(suffix, color: AppColors.disableColor),
+                child: Icon(
+                  suffix,
+                  color: suffixColor ?? AppColors.disableColor,
+                ),
               )
             : null,
       ),

@@ -5,6 +5,8 @@ class AppAssets {
 
   static const String onBoardingLightPath = "assets/images/onboarding/light";
   static const String onBoardingDarkPath = "assets/images/onboarding/dark";
+  static const String eventLightPath = "assets/images/events/light";
+  static const String eventDarkPath = "assets/images/events/dark";
   static const String onBoarding2light = "$onBoardingLightPath/onB2light.png";
   static const String onBoarding2dark = "$onBoardingDarkPath/onB2dark.png";
   static const String onBoarding3light = "$onBoardingLightPath/onB3light.png";
@@ -15,7 +17,17 @@ class AppAssets {
   static const String settingsDark = "$onBoardingDarkPath/onB1dark.png";
   static const String authLight = "assets/images/auth/FBlight.png";
   static const String authDark = "assets/images/auth/FBdark.png";
-  static const String profile = "assets/images/profile_tab/circle_logo_light.png";
+  static const String profile =
+      "assets/images/profile_tab/circle_logo_light.png";
+  static const String birthdayLight = "$eventLightPath/Birthday_light.png";
+  static const String bookClubLight = "$eventLightPath/book_club_light.png";
+  static const String exhibitionLight = "$eventLightPath/Exhibition_light.png";
+  static const String meetingLight = "$eventLightPath/meeting_light.png";
+  static const String sportLight = "$eventLightPath/sport_light.png";
 
-
+  static const String birthdayDark = "$eventDarkPath/Birthday_dark.png";
+  static const String bookClubDark = "$eventDarkPath/book_club_dark.png";
+  static const String exhibitionDark = "$eventDarkPath/Exhibition_dark.png";
+  static const String meetingDark = "$eventDarkPath/meeting_dark.png";
+  static const String sportDark = "$eventDarkPath/sport_dark.png";
 }

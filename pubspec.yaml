@@ -75,6 +75,8 @@ flutter:
      - assets/images/onboarding/light/
      - assets/images/auth/
      - assets/images/profile_tab/circle_logo_light.png
+     - assets/images/events/light/
+     - assets/images/events/dark/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
