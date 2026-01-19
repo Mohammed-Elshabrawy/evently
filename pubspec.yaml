@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.1.5+1
   shared_preferences: ^2.5.4
   carousel_slider: ^5.1.1
+  icons_plus: ^5.0.0
 
 
 dev_dependencies:
@@ -72,6 +73,7 @@ flutter:
      - assets/images/onboarding/logo/dark/
      - assets/images/onboarding/dark/
      - assets/images/onboarding/light/
+     - assets/images/auth/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

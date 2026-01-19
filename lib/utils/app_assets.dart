@@ -11,6 +11,9 @@ class AppAssets {
   static const String onBoarding3dark = "$onBoardingDarkPath/onB3dark.png";
   static const String onBoarding4light = "$onBoardingLightPath/onB4light.png";
   static const String onBoarding4dark = "$onBoardingDarkPath/onB4dark.png";
-  static const settingsLight = "$onBoardingLightPath/oB1light.png";
-  static const settingsDark = "$onBoardingDarkPath/onB1dark.png";
+  static const String settingsLight = "$onBoardingLightPath/oB1light.png";
+  static const String settingsDark = "$onBoardingDarkPath/onB1dark.png";
+  static const String authLight = "assets/images/auth/FBlight.png";
+  static const String authDark = "assets/images/auth/FBdark.png";
+
 }

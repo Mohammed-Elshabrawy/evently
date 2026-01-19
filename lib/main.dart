@@ -1,4 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/pages/auth/forgot_password_screen/forgot_password_screen.dart';
+import 'package:evently/pages/auth/login_screen/login_screen.dart';
+import 'package:evently/pages/auth/signup_screen/signup_screen.dart';
 import 'package:evently/pages/home_screen/home_screen.dart';
 import 'package:evently/pages/onboarding/onboarding.dart';
 import 'package:evently/pages/settings_screen/settings_screen.dart';
@@ -11,7 +14,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  
+
   final appSettingProvider = AppSettingProvider();
   appSettingProvider.loadTheme();
   appSettingProvider.loadLang();
@@ -44,8 +47,11 @@ class MyApp extends StatelessWidget {
         AppRoutes.settingsRoute: (context) => const SettingsScreen(),
         AppRoutes.onBoardingRoute: (context) => const OnBoardingScreen(),
         AppRoutes.homeRoute: (context) => const HomeScreen(),
+        AppRoutes.loginRoute: (context) => const LoginScreen(),
+        AppRoutes.signupRoute: (context) => const SignUpScreen(),
+        AppRoutes.forgotPasswordRoute: (context) => const ForgotPasswordScreen(),
       },
-      initialRoute: AppRoutes.settingsRoute,
+      initialRoute: AppRoutes.loginRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       debugShowCheckedModeBanner: false,
