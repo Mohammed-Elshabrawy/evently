@@ -28,7 +28,7 @@
   "sign_up_with_Google": "قم بالتسجيل مع جوجل",
   "forget_password": "نسيت كلمة المرور؟",
   "reset_password": "إعادة تعيين كلمة المرور",
-  "welcome_back": "مرحباً بكم من جديد",
+  "welcome_back": "مرحباً بك من جديد✨",
   "all": "الكل",
   "sport": "رياضة",
   "login_to_your_account": "تسجيل الدخول إلى حسابك",
@@ -38,5 +38,10 @@
   "meeting": "اجتماع",
   "exhibition": "معرض",
   "eating": "أكل",
-  "or": "أو"
+  "or": "أو",
+  "home": "الرئيسية",
+  "favorite": "المفضل",
+  "profile": "الملف الشخصي",
+  "dark_mode": "الوضع المظلم",
+  "logout": "تسجيل الخروج"
 }

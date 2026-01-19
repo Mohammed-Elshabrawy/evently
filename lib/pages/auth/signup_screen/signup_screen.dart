@@ -70,7 +70,10 @@ class SignUpScreen extends StatelessWidget {
               CustomElevatedButton(
                 text: "signup",
                 onButtonPressed: () {
-                  //Todo: Navigate to home screen
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.homeLayoutRoute,
+                  );
                 },
               ),
               SizedBox(height: 30 * context.screenHeightRatio),
