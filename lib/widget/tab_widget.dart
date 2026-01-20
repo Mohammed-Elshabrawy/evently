@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../../providers/app_setting_provider.dart';
-import '../../../../../utils/app_colors.dart';
-import '../../../../../utils/responsive.dart';
+import '../providers/app_setting_provider.dart';
+import '../utils/app_colors.dart';
+import '../utils/responsive.dart';
 
 class TabWidget extends StatelessWidget {
   const TabWidget({

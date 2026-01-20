@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/pages/add_event_screen/widget/event_date_and_time.dart';
-import 'package:evently/pages/auth/widget/custom_text_form_filed.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_text_styles.dart';
 import 'package:evently/widget/custom_elevated_button.dart';
@@ -10,7 +9,8 @@ import 'package:provider/provider.dart';
 import '../../providers/app_setting_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/responsive.dart';
-import '../home_layout/tabs/home_tab/widget/tab_widget.dart';
+import '../../widget/custom_text_form_filed.dart';
+import '../../widget/tab_widget.dart';
 
 class AppEventScreen extends StatefulWidget {
   const AppEventScreen({super.key});

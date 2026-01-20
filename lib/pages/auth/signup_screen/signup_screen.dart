@@ -9,9 +9,9 @@ import '../../../utils/app_routes.dart';
 import '../../../utils/app_text_styles.dart';
 import '../../../utils/responsive.dart';
 import '../../../widget/custom_elevated_button.dart';
+import '../../../widget/custom_text_form_filed.dart';
 import '../widget/custom_divider.dart';
-import '../widget/custom_text_button.dart';
-import '../widget/custom_text_form_filed.dart';
+import '../../../widget/custom_text_button.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

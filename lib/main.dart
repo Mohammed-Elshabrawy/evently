@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             const ForgotPasswordScreen(),
         AppRoutes.addEventRoute: (context) => const AppEventScreen(),
       },
-      initialRoute: AppRoutes.homeLayoutRoute,
+      initialRoute: AppRoutes.onBoardingRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       debugShowCheckedModeBanner: false,

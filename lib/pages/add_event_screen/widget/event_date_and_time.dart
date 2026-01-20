@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently/pages/auth/widget/custom_text_button.dart';
+import 'package:evently/widget/custom_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/app_setting_provider.dart';

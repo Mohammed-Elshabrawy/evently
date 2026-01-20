@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently/pages/home_layout/tabs/home_tab/widget/tab_widget.dart';
+import 'package:evently/widget/tab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently/pages/auth/widget/custom_text_form_filed.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../providers/app_setting_provider.dart'
     show AppSettingProvider;
+import '../../../../widget/custom_text_form_filed.dart';
 import '../home_tab/widget/event_item.dart';
 
 class FavoriteTab extends StatelessWidget {
