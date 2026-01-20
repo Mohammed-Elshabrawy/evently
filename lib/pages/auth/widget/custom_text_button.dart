@@ -16,7 +16,6 @@ class CustomTextButton extends StatelessWidget {
   final String text;
   final bool isGoogle;
 
-
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
@@ -25,7 +24,6 @@ class CustomTextButton extends StatelessWidget {
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         minimumSize: Size.zero,
-
       ),
       onPressed: onPressed,
       child: Text(
@@ -35,6 +33,9 @@ class CustomTextButton extends StatelessWidget {
               ? AppColors.mainColor
               : AppColors.darkMainColor,
           decoration: TextDecoration.underline,
+          decorationColor: appSettingsProvider.isLight
+              ? AppColors.mainColor
+              : AppColors.darkMainColor,
         ),
       ),
     );

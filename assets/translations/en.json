@@ -44,5 +44,14 @@
   "profile": "Profile",
   "dark_mode": "Dark mode",
   "logout": "Logout",
-  "search_for_event": "Search for an event"
+  "search_for_event": "Search for an event",
+  "add_event": "Add Event",
+  "title": "Title",
+  "description": "Description ",
+  "event_title": "Event Title",
+  "event_description": "Event Description....",
+  "event_date": "Event Date",
+  "event_time": "Event Time",
+  "choose_date": "Choose date",
+  "choose_time": "Choose Time"
 }
