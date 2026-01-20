@@ -7,6 +7,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_setting_provider.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_routes.dart';
 import '../../utils/app_text_styles.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -28,12 +29,14 @@ class _HomeLayoutState extends State<HomeLayout> {
       floatingActionButton: Visibility(
         visible: currentInex == 0,
         child: FloatingActionButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
           backgroundColor: appSettingsProvider.isLight
               ? AppColors.mainColor
               : AppColors.darkMainColor,
           onPressed: () {
-            //Todo:add event
+            Navigator.pushNamed(context, AppRoutes.addEventRoute);
           },
           child: Icon(Icons.add, color: AppColors.whiteColor),
         ),

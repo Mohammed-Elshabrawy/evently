@@ -44,5 +44,15 @@
   "profile": "الملف الشخصي",
   "dark_mode": "الوضع المظلم",
   "logout": "تسجيل الخروج",
-  "search_for_event": "ابحث عن حدث"
+  "search_for_event": "ابحث عن حدث",
+  "add_event": "إضافة حدث",
+  "title": "العنوان",
+  "description": "الوصف",
+  "event_title": "عنوان الحدث",
+  "event_description": "وصف الحدث....",
+  "event_date": "تاريخ الحدث",
+  "event_time": "وقت الحدث",
+  "choose_date": "اختر التاريخ",
+  "choose_time": "اختر الوقت"
+
 }

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/pages/add_event_screen/add_event_screen.dart';
 import 'package:evently/pages/auth/forgot_password_screen/forgot_password_screen.dart';
 import 'package:evently/pages/auth/login_screen/login_screen.dart';
 import 'package:evently/pages/auth/signup_screen/signup_screen.dart';
@@ -46,10 +47,12 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.settingsRoute: (context) => const SettingsScreen(),
         AppRoutes.onBoardingRoute: (context) => const OnBoardingScreen(),
-        AppRoutes.homeLayoutRoute: (context) =>  HomeLayout(),
+        AppRoutes.homeLayoutRoute: (context) => HomeLayout(),
         AppRoutes.loginRoute: (context) => const LoginScreen(),
         AppRoutes.signupRoute: (context) => const SignUpScreen(),
-        AppRoutes.forgotPasswordRoute: (context) => const ForgotPasswordScreen(),
+        AppRoutes.forgotPasswordRoute: (context) =>
+            const ForgotPasswordScreen(),
+        AppRoutes.addEventRoute: (context) => const AppEventScreen(),
       },
       initialRoute: AppRoutes.homeLayoutRoute,
       localizationsDelegates: context.localizationDelegates,

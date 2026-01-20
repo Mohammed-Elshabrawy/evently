@@ -13,7 +13,9 @@ class CustomTextFormFiled extends StatelessWidget {
     this.suffix,
     required this.keyboardType,
     this.suffixColor,
+    this.maxLines,
   });
+  final int? maxLines;
   final IconData? prefix;
   final String hintText;
   final IconData? suffix;
@@ -32,6 +34,7 @@ class CustomTextFormFiled extends StatelessWidget {
       ),
     );
     return TextFormField(
+      maxLines: maxLines,
       style: AppTextStyles.r14.copyWith(
         color: appSettingsProvider.isLight
             ? AppColors.mainTextColor
