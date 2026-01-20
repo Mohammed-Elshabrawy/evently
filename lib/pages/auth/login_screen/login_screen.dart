@@ -25,88 +25,90 @@ class LoginScreen extends StatelessWidget {
           padding: EdgeInsetsGeometry.symmetric(
             horizontal: 15 * context.screenWidthRatio,
           ),
-          child: Column(
-            spacing: 20 * context.screenHeightRatio,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Image.asset(
-                getImageByMode(
-                  light: AppAssets.logoLight,
-                  dark: AppAssets.logoDark,
-                  isLight: appSettingsProvider.isLight,
-                ),
-              ),
-              Text(
-                "login_to_your_account".tr(),
-                style: AppTextStyles.sB24.copyWith(
-                  color: appSettingsProvider.isLight
-                      ? AppColors.mainColor
-                      : AppColors.whiteColor,
-                ),
-              ),
-              CustomTextFormFiled(
-                prefix: Icons.email_outlined,
-                hintText: "enter_your_email".tr(),
-                keyboardType: TextInputType.emailAddress,
-              ),
-              CustomTextFormFiled(
-                prefix: Icons.lock_outline_rounded,
-                hintText: "enter_your_password".tr(),
-                keyboardType: TextInputType.text,
-                suffix: Icons.visibility_outlined,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: CustomTextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.forgotPasswordRoute,
-                    );
-                  },
-                  text: 'forget_password? ',
-                ),
-              ),
-              SizedBox(height: 30 * context.screenHeightRatio),
-              CustomElevatedButton(
-                text: "login",
-                onButtonPressed: () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.homeLayoutRoute,
-                  );
-                },
-              ),
-              SizedBox(height: 30 * context.screenHeightRatio),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "don’t_have_an_account ?".tr(),
-                    style: AppTextStyles.r14.copyWith(
-                      color: appSettingsProvider.isLight
-                          ? AppColors.secTextColor
-                          : AppColors.darkSecTextColor,
-                    ),
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 20 * context.screenHeightRatio,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Image.asset(
+                  getImageByMode(
+                    light: AppAssets.logoLight,
+                    dark: AppAssets.logoDark,
+                    isLight: appSettingsProvider.isLight,
                   ),
-                  CustomTextButton(
+                ),
+                Text(
+                  "login_to_your_account".tr(),
+                  style: AppTextStyles.sB24.copyWith(
+                    color: appSettingsProvider.isLight
+                        ? AppColors.mainColor
+                        : AppColors.whiteColor,
+                  ),
+                ),
+                CustomTextFormFiled(
+                  prefix: Icons.email_outlined,
+                  hintText: "enter_your_email".tr(),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                CustomTextFormFiled(
+                  prefix: Icons.lock_outline_rounded,
+                  hintText: "enter_your_password".tr(),
+                  keyboardType: TextInputType.text,
+                  suffix: Icons.visibility_outlined,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CustomTextButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
+                      Navigator.pushNamed(
                         context,
-                        AppRoutes.signupRoute,
+                        AppRoutes.forgotPasswordRoute,
                       );
                     },
-                    text: 'signup',
+                    text: 'forget_password? ',
                   ),
-                ],
-              ),
-              CustomDivider(),
-              CustomElevatedButton(
-                text: 'login_with_Google',
-                onButtonPressed: () {},
-                isGoogle: true,
-              ),
-            ],
+                ),
+                SizedBox(height: 30 * context.screenHeightRatio),
+                CustomElevatedButton(
+                  text: "login",
+                  onButtonPressed: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      AppRoutes.homeLayoutRoute,
+                    );
+                  },
+                ),
+                SizedBox(height: 30 * context.screenHeightRatio),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "don’t_have_an_account ?".tr(),
+                      style: AppTextStyles.r14.copyWith(
+                        color: appSettingsProvider.isLight
+                            ? AppColors.secTextColor
+                            : AppColors.darkSecTextColor,
+                      ),
+                    ),
+                    CustomTextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          AppRoutes.signupRoute,
+                        );
+                      },
+                      text: 'signup',
+                    ),
+                  ],
+                ),
+                CustomDivider(),
+                CustomElevatedButton(
+                  text: 'login_with_Google',
+                  onButtonPressed: () {},
+                  isGoogle: true,
+                ),
+              ],
+            ),
           ),
         ),
       ),

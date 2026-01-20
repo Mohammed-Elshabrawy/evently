@@ -74,7 +74,11 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
             visible: currentIndex != 2,
             child: InkWell(
               onTap: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.loginRoute,
+                  (route) => false,
+                );
               },
               child: Container(
                 padding: EdgeInsets.symmetric(
@@ -94,7 +98,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                 ),
                 child: Text(
-                  "skip".tr(),
+                  "skip",
                   style: AppTextStyles.sB14.copyWith(
                     color: appSettingsProvider.isLight
                         ? AppColors.mainColor
@@ -155,9 +159,10 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                             );
                           });
                         } else if (i == 2) {
-                          Navigator.pushReplacementNamed(
+                          Navigator.pushNamedAndRemoveUntil(
                             context,
                             AppRoutes.loginRoute,
+                            (route) => false,
                           );
                         }
                       },

@@ -75,105 +75,110 @@ class _AppEventScreenState extends State<AppEventScreen> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsetsGeometry.symmetric(
-          horizontal: 16 * context.screenWidthRatio,
-          vertical: 30 * context.screenHeightRatio,
-        ),
-        child: Column(
-          spacing: 10 * context.screenHeightRatio,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: appSettingsProvider.isLight
-                      ? AppColors.strokeColor
-                      : AppColors.darkStrokeColor,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16 * context.screenWidthRatio,
+            vertical: 30 * context.screenHeightRatio,
+          ),
+          child: Column(
+            spacing: 10 * context.screenHeightRatio,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: appSettingsProvider.isLight
+                        ? AppColors.strokeColor
+                        : AppColors.darkStrokeColor,
+                  ),
                 ),
-              ),
-              child: ClipRRect(
-                clipBehavior: Clip.hardEdge,
-                borderRadius: BorderRadius.circular(16),
-                child: Image.asset(
-                  appSettingsProvider.isLight
-                      ? imagesLight[selectedIndex]
-                      : imagesDark[selectedIndex],
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 40 * context.screenHeightRatio,
-              child: DefaultTabController(
-                initialIndex: selectedIndex,
-                length: index.length,
-                child: TabBar(
-                  tabs: index.map((index) {
-                    return TabWidget(
-                      title: categories[index],
-                      icon: icons[index],
-                      isSelected: index == selectedIndex,
-                    );
-                  }).toList(),
-                  isScrollable: true,
-                  onTap: (index) {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                  },
-                  indicatorColor: AppColors.transparentColor,
-                  dividerColor: AppColors.transparentColor,
-                  tabAlignment: TabAlignment.start,
-                  labelPadding: EdgeInsets.symmetric(
-                    horizontal: 4 * context.screenWidthRatio,
+                child: ClipRRect(
+                  clipBehavior: Clip.hardEdge,
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    appSettingsProvider.isLight
+                        ? imagesLight[selectedIndex]
+                        : imagesDark[selectedIndex],
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-            ),
-            Text(
-              'title'.tr(),
-              style: AppTextStyles.m16.copyWith(
-                color: appSettingsProvider.isLight
-                    ? AppColors.mainTextColor
-                    : AppColors.whiteColor,
+              SizedBox(
+                height: 40 * context.screenHeightRatio,
+                child: DefaultTabController(
+                  initialIndex: selectedIndex,
+                  length: index.length,
+                  child: TabBar(
+                    tabs: index.map((index) {
+                      return TabWidget(
+                        title: categories[index],
+                        icon: icons[index],
+                        isSelected: index == selectedIndex,
+                      );
+                    }).toList(),
+                    isScrollable: true,
+                    onTap: (index) {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    },
+                    indicatorColor: AppColors.transparentColor,
+                    dividerColor: AppColors.transparentColor,
+                    tabAlignment: TabAlignment.start,
+                    labelPadding: EdgeInsets.symmetric(
+                      horizontal: 4 * context.screenWidthRatio,
+                    ),
+                  ),
+                ),
               ),
-            ),
-            CustomTextFormFiled(
-              hintText: 'event_title'.tr(),
-              keyboardType: TextInputType.text,
-            ),
-            Text(
-              'description'.tr(),
-              style: AppTextStyles.m16.copyWith(
-                color: appSettingsProvider.isLight
-                    ? AppColors.mainTextColor
-                    : AppColors.whiteColor,
+              Text(
+                'title'.tr(),
+                style: AppTextStyles.m16.copyWith(
+                  color: appSettingsProvider.isLight
+                      ? AppColors.mainTextColor
+                      : AppColors.whiteColor,
+                ),
               ),
-            ),
-            CustomTextFormFiled(
-              maxLines: 5,
-              hintText: 'event_description'.tr(),
-              keyboardType: TextInputType.text,
-            ),
-            EventDateAndTime(
-              isDate: true,
-              onPressed: () {
-                //todo: show date picker
-              },
-            ),
-            EventDateAndTime(
-              isDate: false,
-              onPressed: () {
-                //todo: show time picker
-              },
-            ),
-            Spacer(),
-            CustomElevatedButton(text: 'add_event', onButtonPressed: (){
-              //todo: add event
-            }),
-          ],
+              CustomTextFormFiled(
+                hintText: 'event_title'.tr(),
+                keyboardType: TextInputType.text,
+              ),
+              Text(
+                'description'.tr(),
+                style: AppTextStyles.m16.copyWith(
+                  color: appSettingsProvider.isLight
+                      ? AppColors.mainTextColor
+                      : AppColors.whiteColor,
+                ),
+              ),
+              CustomTextFormFiled(
+                maxLines: 5,
+                hintText: 'event_description'.tr(),
+                keyboardType: TextInputType.text,
+              ),
+              EventDateAndTime(
+                isDate: true,
+                onPressed: () {
+                  //todo: show date picker
+                },
+              ),
+              EventDateAndTime(
+                isDate: false,
+                onPressed: () {
+                  //todo: show time picker
+                },
+              ),
+              SizedBox(height: 20 * context.screenHeightRatio),
+              CustomElevatedButton(
+                text: 'add_event',
+                onButtonPressed: () {
+                  //todo: add event
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -39,7 +39,7 @@ class EventDateAndTime extends StatelessWidget {
         Spacer(),
         CustomTextButton(
           onPressed: onPressed,
-          text: isDate ? "choose_date".tr() : "choose_time".tr(),
+          text: isDate ? "choose_date" : "choose_time",
         ),
       ],
     );

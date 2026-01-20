@@ -18,7 +18,7 @@ class HomeLayout extends StatefulWidget {
 }
 
 class _HomeLayoutState extends State<HomeLayout> {
-  final List<Widget> tabs = [HomeTab(), FavoriteTab(), ProfileTab()];
+  final List<Widget> tabs = [const HomeTab(), const FavoriteTab(), const ProfileTab()];
 
   int currentInex = 0;
 
@@ -38,7 +38,7 @@ class _HomeLayoutState extends State<HomeLayout> {
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.addEventRoute);
           },
-          child: Icon(Icons.add, color: AppColors.whiteColor),
+          child: const Icon(Icons.add, color: AppColors.whiteColor),
         ),
       ),
       body: tabs[currentInex],

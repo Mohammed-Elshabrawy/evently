@@ -25,84 +25,87 @@ class SignUpScreen extends StatelessWidget {
           padding: EdgeInsetsGeometry.symmetric(
             horizontal: 15 * context.screenWidthRatio,
           ),
-          child: Column(
-            spacing: 20 * context.screenHeightRatio,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Image.asset(
-                getImageByMode(
-                  light: AppAssets.logoLight,
-                  dark: AppAssets.logoDark,
-                  isLight: appSettingsProvider.isLight,
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 20 * context.screenHeightRatio,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Image.asset(
+                  getImageByMode(
+                    light: AppAssets.logoLight,
+                    dark: AppAssets.logoDark,
+                    isLight: appSettingsProvider.isLight,
+                  ),
                 ),
-              ),
-              Text(
-                "create_your_account".tr(),
-                style: AppTextStyles.sB24.copyWith(
-                  color: appSettingsProvider.isLight
-                      ? AppColors.mainColor
-                      : AppColors.whiteColor,
+                Text(
+                  "create_your_account".tr(),
+                  style: AppTextStyles.sB24.copyWith(
+                    color: appSettingsProvider.isLight
+                        ? AppColors.mainColor
+                        : AppColors.whiteColor,
+                  ),
                 ),
-              ),
-              CustomTextFormFiled(
-                prefix: Icons.person_outline_outlined,
-                hintText: "enter_your_name".tr(),
-                keyboardType: TextInputType.name,
-              ),
-              CustomTextFormFiled(
-                prefix: Icons.email_outlined,
-                hintText: "enter_your_email".tr(),
-                keyboardType: TextInputType.emailAddress,
-              ),
-              CustomTextFormFiled(
-                prefix: Icons.lock_outline_rounded,
-                hintText: "enter_your_password".tr(),
-                keyboardType: TextInputType.text,
-                suffix: Icons.visibility_outlined,
-              ),
-              CustomTextFormFiled(
-                prefix: Icons.lock_outline_rounded,
-                hintText: "confirm_your_password".tr(),
-                keyboardType: TextInputType.text,
-                suffix: Icons.visibility_outlined,
-              ),
-              SizedBox(height: 30 * context.screenHeightRatio),
-              CustomElevatedButton(
-                text: "signup",
-                onButtonPressed: () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.homeLayoutRoute,
-                  );
-                },
-              ),
-              SizedBox(height: 30 * context.screenHeightRatio),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "already_have_an_account?".tr(),
-                    style: AppTextStyles.r14.copyWith(
-                      color: appSettingsProvider.isLight
-                          ? AppColors.secTextColor
-                          : AppColors.darkSecTextColor,
+                CustomTextFormFiled(
+                  prefix: Icons.person_outline_outlined,
+                  hintText: "enter_your_name".tr(),
+                  keyboardType: TextInputType.name,
+                ),
+                CustomTextFormFiled(
+                  prefix: Icons.email_outlined,
+                  hintText: "enter_your_email".tr(),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                CustomTextFormFiled(
+                  prefix: Icons.lock_outline_rounded,
+                  hintText: "enter_your_password".tr(),
+                  keyboardType: TextInputType.text,
+                  suffix: Icons.visibility_outlined,
+                ),
+                CustomTextFormFiled(
+                  prefix: Icons.lock_outline_rounded,
+                  hintText: "confirm_your_password".tr(),
+                  keyboardType: TextInputType.text,
+                  suffix: Icons.visibility_outlined,
+                ),
+                SizedBox(height: 30 * context.screenHeightRatio),
+                CustomElevatedButton(
+                  text: "signup",
+                  onButtonPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.forgotPasswordRoute,
+                          (route) => false,
+                    );
+                  },
+                ),
+                SizedBox(height: 30 * context.screenHeightRatio),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "already_have_an_account?".tr(),
+                      style: AppTextStyles.r14.copyWith(
+                        color: appSettingsProvider.isLight
+                            ? AppColors.secTextColor
+                            : AppColors.darkSecTextColor,
+                      ),
                     ),
-                  ),
-                  CustomTextButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
-                    },
-                    text: 'login',
-                  ),
-                ],
-              ),
-              CustomDivider(),
-              CustomElevatedButton(
-                text: 'sign_up_with_Google',
-                onButtonPressed: () {},
-                isGoogle: true,
-              ),
-            ],
+                    CustomTextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+                      },
+                      text: 'login',
+                    ),
+                  ],
+                ),
+                CustomDivider(),
+                CustomElevatedButton(
+                  text: 'sign_up_with_Google',
+                  onButtonPressed: () {},
+                  isGoogle: true,
+                ),
+              ],
+            ),
           ),
         ),
       ),
