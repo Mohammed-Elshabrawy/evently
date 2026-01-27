@@ -9,11 +9,16 @@ import 'package:evently/pages/settings_screen/settings_screen.dart';
 import 'package:evently/providers/app_setting_provider.dart';
 import 'package:evently/utils/app_routes.dart';
 import 'package:evently/utils/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   await EasyLocalization.ensureInitialized();
 
   final appSettingProvider = AppSettingProvider();

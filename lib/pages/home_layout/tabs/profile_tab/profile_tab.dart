@@ -1,6 +1,7 @@
 import 'package:evently/pages/home_layout/tabs/profile_tab/widget/lang_item.dart';
 import 'package:evently/pages/home_layout/tabs/profile_tab/widget/settings_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/app_setting_provider.dart';
 import '../../../../utils/app_assets.dart';
@@ -91,7 +92,7 @@ class ProfileTab extends StatelessWidget {
               label: 'logout',
               widget: IconButton(
                 onPressed: () {
-                  //todo:logout
+                  SystemNavigator.pop();
                 },
                 icon: Icon(Icons.logout_outlined, color: AppColors.redColor),
               ),
