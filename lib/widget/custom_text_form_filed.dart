@@ -5,6 +5,8 @@ import '../providers/app_setting_provider.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_text_styles.dart';
 
+typedef Validator = String? Function(String?);
+
 class CustomTextFormFiled extends StatelessWidget {
   const CustomTextFormFiled({
     super.key,
@@ -14,13 +16,19 @@ class CustomTextFormFiled extends StatelessWidget {
     required this.keyboardType,
     this.suffixColor,
     this.maxLines,
+    this.controller,
+    this.validator,
+    this.textInputAction,
   });
+  final TextEditingController? controller;
   final int? maxLines;
   final IconData? prefix;
   final String hintText;
   final IconData? suffix;
   final TextInputType keyboardType;
   final Color? suffixColor;
+  final Validator? validator;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +42,9 @@ class CustomTextFormFiled extends StatelessWidget {
       ),
     );
     return TextFormField(
+      textInputAction: textInputAction,
+      controller: controller,
+      validator: validator,
       maxLines: maxLines,
       style: AppTextStyles.r14.copyWith(
         color: appSettingsProvider.isLight

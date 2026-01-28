@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../../../../../models/event_model.dart';
 import '../../../../../providers/app_setting_provider.dart';
-import '../../../../../utils/app_assets.dart';
 import '../../../../../utils/app_text_styles.dart';
 import '../../../../../utils/responsive.dart';
 
 class EventItem extends StatelessWidget {
-  const EventItem({super.key});
+  const EventItem({super.key, required this.event});
+  final Event event;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class EventItem extends StatelessWidget {
               : AppColors.darkStrokeColor,
         ),
         image: DecorationImage(
-          image: AssetImage(AppAssets.birthdayLight),
+          image: AssetImage(event.image),
           fit: BoxFit.cover,
         ),
       ),
@@ -39,7 +40,6 @@ class EventItem extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              width: 66 * context.screenWidthRatio,
               decoration: BoxDecoration(
                 color: appSettingsProvider.isLight
                     ? AppColors.bgColor
@@ -53,7 +53,7 @@ class EventItem extends StatelessWidget {
               ),
               padding: EdgeInsets.all(8 * context.screenWidthRatio),
               child: Text(
-                '21 Jan',
+                DateFormat('d MMM').format(event.date),
                 style: AppTextStyles.sB16.copyWith(
                   color: appSettingsProvider.isLight
                       ? AppColors.mainColor
@@ -81,7 +81,7 @@ class EventItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'This is a Birthday Party ',
+                  event.title,
                   style: AppTextStyles.m14.copyWith(
                     color: appSettingsProvider.isLight
                         ? AppColors.mainTextColor

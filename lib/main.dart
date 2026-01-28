@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/pages/add_event_screen/add_event_screen.dart';
 import 'package:evently/pages/auth/forgot_password_screen/forgot_password_screen.dart';
@@ -9,11 +10,17 @@ import 'package:evently/pages/settings_screen/settings_screen.dart';
 import 'package:evently/providers/app_setting_provider.dart';
 import 'package:evently/utils/app_routes.dart';
 import 'package:evently/utils/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
+  await FirebaseFirestore.instance.disableNetwork();
   await EasyLocalization.ensureInitialized();
 
   final appSettingProvider = AppSettingProvider();
@@ -54,7 +61,7 @@ class MyApp extends StatelessWidget {
             const ForgotPasswordScreen(),
         AppRoutes.addEventRoute: (context) => const AppEventScreen(),
       },
-      initialRoute: AppRoutes.settingsRoute,
+      initialRoute: AppRoutes.homeLayoutRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       debugShowCheckedModeBanner: false,
