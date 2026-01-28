@@ -42,6 +42,7 @@ dependencies:
   carousel_slider: ^5.1.1
   icons_plus: ^5.0.0
   firebase_core: ^4.4.0
+  cloud_firestore: ^6.1.2
 
 
 dev_dependencies:

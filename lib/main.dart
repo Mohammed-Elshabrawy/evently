@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/pages/add_event_screen/add_event_screen.dart';
 import 'package:evently/pages/auth/forgot_password_screen/forgot_password_screen.dart';
@@ -19,6 +20,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
+  await FirebaseFirestore.instance.disableNetwork();
   await EasyLocalization.ensureInitialized();
 
   final appSettingProvider = AppSettingProvider();
@@ -59,7 +61,7 @@ class MyApp extends StatelessWidget {
             const ForgotPasswordScreen(),
         AppRoutes.addEventRoute: (context) => const AppEventScreen(),
       },
-      initialRoute: AppRoutes.settingsRoute,
+      initialRoute: AppRoutes.homeLayoutRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       debugShowCheckedModeBanner: false,

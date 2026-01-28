@@ -12,9 +12,11 @@ class EventDateAndTime extends StatelessWidget {
     super.key,
     required this.isDate,
     required this.onPressed,
+    required this.selectedDateOrTime,
   });
   final bool isDate;
   final VoidCallback onPressed;
+  final String selectedDateOrTime;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class EventDateAndTime extends StatelessWidget {
         Spacer(),
         CustomTextButton(
           onPressed: onPressed,
-          text: isDate ? "choose_date" : "choose_time",
+          text:  selectedDateOrTime,
         ),
       ],
     );

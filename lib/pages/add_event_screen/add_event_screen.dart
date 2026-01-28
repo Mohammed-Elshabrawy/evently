@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/firebase_utils.dart';
 import 'package:evently/pages/add_event_screen/widget/event_date_and_time.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_text_styles.dart';
@@ -6,6 +7,7 @@ import 'package:evently/widget/custom_elevated_button.dart';
 import 'package:evently/widget/leading_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../models/event_model.dart';
 import '../../providers/app_setting_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/responsive.dart';
@@ -54,6 +56,38 @@ class _AppEventScreenState extends State<AppEventScreen> {
   ];
 
   int selectedIndex = 0;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
+
+  void chooseDate() async {
+    var date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+    if (date != null) {
+      setState(() {
+        selectedDate = date;
+      });
+    }
+  }
+
+  void chooseTime() async {
+    var time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (time != null) {
+      setState(() {
+        selectedTime = time;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,103 +115,157 @@ class _AppEventScreenState extends State<AppEventScreen> {
             horizontal: 16 * context.screenWidthRatio,
             vertical: 30 * context.screenHeightRatio,
           ),
-          child: Column(
-            spacing: 10 * context.screenHeightRatio,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: appSettingsProvider.isLight
-                        ? AppColors.strokeColor
-                        : AppColors.darkStrokeColor,
+          child: Form(
+            key: formKey,
+            child: Column(
+              spacing: 10 * context.screenHeightRatio,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: appSettingsProvider.isLight
+                          ? AppColors.strokeColor
+                          : AppColors.darkStrokeColor,
+                    ),
                   ),
-                ),
-                child: ClipRRect(
-                  clipBehavior: Clip.hardEdge,
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    appSettingsProvider.isLight
-                        ? imagesLight[selectedIndex]
-                        : imagesDark[selectedIndex],
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 40 * context.screenHeightRatio,
-                child: DefaultTabController(
-                  initialIndex: selectedIndex,
-                  length: index.length,
-                  child: TabBar(
-                    tabs: index.map((index) {
-                      return TabWidget(
-                        title: categories[index],
-                        icon: icons[index],
-                        isSelected: index == selectedIndex,
-                      );
-                    }).toList(),
-                    isScrollable: true,
-                    onTap: (index) {
-                      setState(() {
-                        selectedIndex = index;
-                      });
-                    },
-                    indicatorColor: AppColors.transparentColor,
-                    dividerColor: AppColors.transparentColor,
-                    tabAlignment: TabAlignment.start,
-                    labelPadding: EdgeInsets.symmetric(
-                      horizontal: 4 * context.screenWidthRatio,
+                  child: ClipRRect(
+                    clipBehavior: Clip.hardEdge,
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(
+                      appSettingsProvider.isLight
+                          ? imagesLight[selectedIndex]
+                          : imagesDark[selectedIndex],
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ),
-              Text(
-                'title'.tr(),
-                style: AppTextStyles.m16.copyWith(
-                  color: appSettingsProvider.isLight
-                      ? AppColors.mainTextColor
-                      : AppColors.whiteColor,
+                SizedBox(
+                  height: 40 * context.screenHeightRatio,
+                  child: DefaultTabController(
+                    initialIndex: selectedIndex,
+                    length: index.length,
+                    child: TabBar(
+                      tabs: index.map((index) {
+                        return TabWidget(
+                          title: categories[index],
+                          icon: icons[index],
+                          isSelected: index == selectedIndex,
+                        );
+                      }).toList(),
+                      isScrollable: true,
+                      onTap: (index) {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      indicatorColor: AppColors.transparentColor,
+                      dividerColor: AppColors.transparentColor,
+                      tabAlignment: TabAlignment.start,
+                      labelPadding: EdgeInsets.symmetric(
+                        horizontal: 4 * context.screenWidthRatio,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              CustomTextFormFiled(
-                hintText: 'event_title'.tr(),
-                keyboardType: TextInputType.text,
-              ),
-              Text(
-                'description'.tr(),
-                style: AppTextStyles.m16.copyWith(
-                  color: appSettingsProvider.isLight
-                      ? AppColors.mainTextColor
-                      : AppColors.whiteColor,
+                Text(
+                  'title'.tr(),
+                  style: AppTextStyles.m16.copyWith(
+                    color: appSettingsProvider.isLight
+                        ? AppColors.mainTextColor
+                        : AppColors.whiteColor,
+                  ),
                 ),
-              ),
-              CustomTextFormFiled(
-                maxLines: 5,
-                hintText: 'event_description'.tr(),
-                keyboardType: TextInputType.text,
-              ),
-              EventDateAndTime(
-                isDate: true,
-                onPressed: () {
-                  //todo: show date picker
-                },
-              ),
-              EventDateAndTime(
-                isDate: false,
-                onPressed: () {
-                  //todo: show time picker
-                },
-              ),
-              SizedBox(height: 20 * context.screenHeightRatio),
-              CustomElevatedButton(
-                text: 'add_event',
-                onButtonPressed: () {
-                  //todo: add event
-                },
-              ),
-            ],
+                CustomTextFormFiled(
+                  textInputAction: TextInputAction.next,
+                  hintText: 'event_title'.tr(),
+                  keyboardType: TextInputType.text,
+                  controller: titleController,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'please_enter_title'.tr();
+                    }
+                    return null;
+                  },
+                ),
+                Text(
+                  'description'.tr(),
+                  style: AppTextStyles.m16.copyWith(
+                    color: appSettingsProvider.isLight
+                        ? AppColors.mainTextColor
+                        : AppColors.whiteColor,
+                  ),
+                ),
+                CustomTextFormFiled(
+                  textInputAction: TextInputAction.done,
+                  maxLines: 5,
+                  hintText: 'event_description'.tr(),
+                  keyboardType: TextInputType.text,
+                  controller: descriptionController,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'please_enter_description'.tr();
+                    }
+                    return null;
+                  },
+                ),
+                EventDateAndTime(
+                  isDate: true,
+                  onPressed: chooseDate,
+                  selectedDateOrTime: selectedDate != null
+                      ? DateFormat('MMM d,y').format(selectedDate!)
+                      : 'choose_date'.tr(),
+                ),
+                EventDateAndTime(
+                  isDate: false,
+                  onPressed: chooseTime,
+                  selectedDateOrTime:
+                      selectedTime?.format(context) ?? 'choose_time'.tr(),
+                ),
+                SizedBox(height: 20 * context.screenHeightRatio),
+                CustomElevatedButton(
+                  text: 'add_event',
+                  onButtonPressed: () {
+                    if (!formKey.currentState!.validate()) {
+                      return;
+                    } else if (selectedDate == null || selectedTime == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: AppColors.redColor,
+                          content: Text("please_choose_date_and_time".tr()),
+                        ),
+                      );
+                    } else {
+                      Event event = Event(
+                        image: appSettingsProvider.isLight
+                            ? imagesLight[selectedIndex]
+                            : imagesDark[selectedIndex],
+                        name: categories[selectedIndex],
+                        title: titleController.text,
+                        description: descriptionController.text,
+                        time: selectedTime!.format(context),
+                        date: selectedDate!,
+                      );
+                      FirebaseUtils.addEventToFireStore(event).timeout(
+                        Duration(seconds: 1),
+                        onTimeout: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: appSettingsProvider.isLight
+                                  ? AppColors.mainColor
+                                  : AppColors.darkMainColor,
+                              content: Text("event_added_successfully".tr()),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        },
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

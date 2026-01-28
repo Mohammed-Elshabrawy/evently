@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../../../providers/app_setting_provider.dart'
     show AppSettingProvider;
 import '../../../../widget/custom_text_form_filed.dart';
-import '../home_tab/widget/event_item.dart';
 
 class FavoriteTab extends StatelessWidget {
   const FavoriteTab({super.key});
@@ -24,12 +23,12 @@ class FavoriteTab extends StatelessWidget {
               : AppColors.darkMainColor,
         ),
       ),
-      body: ListView.builder(
+      /*  body: ListView.builder(
         padding: EdgeInsets.zero,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) => EventItem(),
         itemCount: 10,
-      ),
+      )*/
     );
   }
 }

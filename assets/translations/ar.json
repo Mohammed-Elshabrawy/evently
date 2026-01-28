@@ -53,6 +53,10 @@
   "event_date": "تاريخ الحدث",
   "event_time": "وقت الحدث",
   "choose_date": "اختر التاريخ",
-  "choose_time": "اختر الوقت"
-
+  "choose_time": "اختر الوقت",
+  "please_enter_title": "الرجاء إدخال العنوان",
+  "please_enter_description": "الرجاء إدخال الوصف",
+  "please_choose_date_and_time": "الرجاء اختيار تاريخ ووقت الحدث",
+  "event_added_successfully": "تمت إضافة الحدث بنجاح",
+  "no_events_found": "لم يتم العثور على أي أحداث"
 }
