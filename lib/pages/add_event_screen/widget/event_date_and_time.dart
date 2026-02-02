@@ -13,10 +13,12 @@ class EventDateAndTime extends StatelessWidget {
     required this.isDate,
     required this.onPressed,
     required this.selectedDateOrTime,
+    required this.isDateOrTimeErrorSeen,
   });
   final bool isDate;
   final VoidCallback onPressed;
   final String selectedDateOrTime;
+  final bool isDateOrTimeErrorSeen;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,22 @@ class EventDateAndTime extends StatelessWidget {
           ),
         ),
         Spacer(),
-        CustomTextButton(
-          onPressed: onPressed,
-          text:  selectedDateOrTime,
+        Column(
+          children: [
+            CustomTextButton(onPressed: onPressed, text: selectedDateOrTime),
+            Visibility(
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              visible: isDateOrTimeErrorSeen,
+              child: Text(
+                isDate
+                    ? "please_choose_event_date".tr()
+                    : "please_choose_event_time".tr(),
+                style: AppTextStyles.m12.copyWith(color: AppColors.redColor),
+              ),
+            ),
+          ],
         ),
       ],
     );

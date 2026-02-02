@@ -62,6 +62,8 @@ class _AppEventScreenState extends State<AppEventScreen> {
 
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+  bool isDateErrorSeen = false;
+  bool isTimeErrorSeen = false;
 
   void chooseDate() async {
     var date = await showDatePicker(
@@ -211,32 +213,45 @@ class _AppEventScreenState extends State<AppEventScreen> {
                   },
                 ),
                 EventDateAndTime(
+                  isDateOrTimeErrorSeen: isDateErrorSeen,
                   isDate: true,
                   onPressed: chooseDate,
                   selectedDateOrTime: selectedDate != null
                       ? DateFormat('MMM d,y').format(selectedDate!)
-                      : 'choose_date'.tr(),
+                      : 'choose_date',
                 ),
                 EventDateAndTime(
+                  isDateOrTimeErrorSeen: isTimeErrorSeen,
                   isDate: false,
                   onPressed: chooseTime,
                   selectedDateOrTime:
-                      selectedTime?.format(context) ?? 'choose_time'.tr(),
+                      selectedTime?.format(context) ?? 'choose_time',
                 ),
                 SizedBox(height: 20 * context.screenHeightRatio),
                 CustomElevatedButton(
                   text: 'add_event',
                   onButtonPressed: () {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    } else if (selectedDate == null || selectedTime == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: AppColors.redColor,
-                          content: Text("please_choose_date_and_time".tr()),
-                        ),
-                      );
+                    if (selectedDate == null) {
+                      setState(() {
+                        isDateErrorSeen = true;
+                      });
                     } else {
+                      setState(() {
+                        isDateErrorSeen = false;
+                      });
+                    }
+                    if (selectedTime == null) {
+                      setState(() {
+                        isTimeErrorSeen = true;
+                      });
+                    } else {
+                      setState(() {
+                        isTimeErrorSeen = false;
+                      });
+                    }
+                    if (formKey.currentState!.validate() &&
+                        selectedDate != null &&
+                        selectedTime != null) {
                       Event event = Event(
                         image: appSettingsProvider.isLight
                             ? imagesLight[selectedIndex]
@@ -248,7 +263,7 @@ class _AppEventScreenState extends State<AppEventScreen> {
                         date: selectedDate!,
                       );
                       FirebaseUtils.addEventToFireStore(event).timeout(
-                        Duration(seconds: 1),
+                        Duration(seconds: 0),
                         onTimeout: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
