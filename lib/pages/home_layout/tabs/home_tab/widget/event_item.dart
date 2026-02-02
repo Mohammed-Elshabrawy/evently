@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../../firebase_utils.dart';
 import '../../../../../models/event_model.dart';
 import '../../../../../providers/app_setting_provider.dart';
 import '../../../../../utils/app_text_styles.dart';
@@ -88,11 +89,20 @@ class EventItem extends StatelessWidget {
                         : AppColors.whiteColor,
                   ),
                 ),
-                Icon(
-                  Icons.favorite,
-                  color: appSettingsProvider.isLight
-                      ? AppColors.mainColor
-                      : AppColors.darkMainColor,
+                IconButton(
+                  onPressed: () {
+                    FirebaseUtils.updateEventIsFavorite(
+                      event,
+                      context,
+                      appSettingsProvider,
+                    );
+                  },
+                  icon: Icon(
+                    event.isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: appSettingsProvider.isLight
+                        ? AppColors.mainColor
+                        : AppColors.darkMainColor,
+                  ),
                 ),
               ],
             ),

@@ -25,6 +25,7 @@ class _HomeTabState extends State<HomeTab> {
     "birthday",
     "book_club",
     "meeting",
+    "exhibition",
   ];
 
   final List<IconData> icons = [
@@ -33,9 +34,10 @@ class _HomeTabState extends State<HomeTab> {
     Icons.cake_outlined,
     Icons.book_outlined,
     Icons.group_outlined,
+    Icons.data_exploration_outlined,
   ];
 
-  final List<int> index = [0, 1, 2, 3, 4];
+  final List<int> index = [0, 1, 2, 3, 4, 5];
 
   int selectedIndex = 0;
 
@@ -143,11 +145,13 @@ class _HomeTabState extends State<HomeTab> {
                   .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator(
-              color: appSettingsProvider.isLight
-                  ? AppColors.mainColor
-                  : AppColors.darkMainColor,
-            ));
+            return Center(
+              child: CircularProgressIndicator(
+                color: appSettingsProvider.isLight
+                    ? AppColors.mainColor
+                    : AppColors.darkMainColor,
+              ),
+            );
           }
 
           if (snapshot.hasError) {

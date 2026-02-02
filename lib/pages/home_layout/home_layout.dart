@@ -18,7 +18,7 @@ class HomeLayout extends StatefulWidget {
 }
 
 class _HomeLayoutState extends State<HomeLayout> {
-  final List<Widget> tabs = [ HomeTab(), const FavoriteTab(), const ProfileTab()];
+  final List<Widget> tabs = [HomeTab(), FavoriteTab(), const ProfileTab()];
 
   int currentInex = 0;
 
