@@ -4,6 +4,8 @@ import 'package:evently/pages/add_event_screen/add_event_screen.dart';
 import 'package:evently/pages/auth/forgot_password_screen/forgot_password_screen.dart';
 import 'package:evently/pages/auth/login_screen/login_screen.dart';
 import 'package:evently/pages/auth/signup_screen/signup_screen.dart';
+import 'package:evently/pages/edit_event_screen/edit_event_screen.dart';
+import 'package:evently/pages/event_details_screen/event_details_screen.dart';
 import 'package:evently/pages/home_layout/home_layout.dart';
 import 'package:evently/pages/onboarding/onboarding.dart';
 import 'package:evently/pages/settings_screen/settings_screen.dart';
@@ -60,6 +62,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.forgotPasswordRoute: (context) =>
             const ForgotPasswordScreen(),
         AppRoutes.addEventRoute: (context) => const AppEventScreen(),
+        AppRoutes.eventDetailsScreen: (context) => EventDetailsScreen(),
+        AppRoutes.editEventScreen: (context) => EditEventScreen(),
       },
       initialRoute: AppRoutes.homeLayoutRoute,
       localizationsDelegates: context.localizationDelegates,

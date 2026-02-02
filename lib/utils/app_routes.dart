@@ -6,4 +6,6 @@ class AppRoutes {
   static const String signupRoute ="Signup_screen";
   static const String forgotPasswordRoute ="forgot_password_screen";
   static const String addEventRoute ="add_event_screen";
+  static const String eventDetailsScreen ="event_details_screen";
+  static const String editEventScreen ="edit_event_screen";
 }

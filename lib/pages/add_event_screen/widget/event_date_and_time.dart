@@ -14,11 +14,13 @@ class EventDateAndTime extends StatelessWidget {
     required this.onPressed,
     required this.selectedDateOrTime,
     required this.isDateOrTimeErrorSeen,
+    this.isEdit = false,
   });
   final bool isDate;
   final VoidCallback onPressed;
   final String selectedDateOrTime;
   final bool isDateOrTimeErrorSeen;
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,11 @@ class EventDateAndTime extends StatelessWidget {
         Spacer(),
         Column(
           children: [
-            CustomTextButton(onPressed: onPressed, text: selectedDateOrTime),
+            CustomTextButton(
+              onPressed: onPressed,
+              text: selectedDateOrTime,
+              isTimeOrDate: isEdit,
+            ),
             Visibility(
               maintainSize: true,
               maintainAnimation: true,

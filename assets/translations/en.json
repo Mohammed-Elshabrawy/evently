@@ -59,5 +59,10 @@
   "event_added_successfully": "Event Added successfully",
   "no_events_found": "No Events Found",
   "please_choose_event_time": "Please Choose Event Time",
-  "please_choose_event_date": "Please Choose Event Date"
+  "please_choose_event_date": "Please Choose Event Date",
+  "event_details": "Event Details",
+  "edit_event": "Edit event",
+  "update_event": "Update Event",
+  "event_deleted_successfully": "Event Deleted Successfully",
+  "event_Updated_successfully": "Event Updated Successfully"
 }

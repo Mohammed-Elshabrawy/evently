@@ -19,7 +19,7 @@ class ForgotPasswordScreen extends StatelessWidget {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        leading: LeadingIcon(
+        leading: AppBarCustomIcon(
           onPressed: () {
             Navigator.pop(context);
           },

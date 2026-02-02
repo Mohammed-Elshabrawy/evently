@@ -51,7 +51,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
         centerTitle: true,
         leading: Visibility(
           visible: currentIndex != 0,
-          child: LeadingIcon(
+          child: AppBarCustomIcon(
             onPressed: () {
               setState(() {
                 carouselController.previousPage(
