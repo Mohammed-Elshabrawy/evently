@@ -18,12 +18,30 @@ class FavoriteTab extends StatefulWidget {
 }
 
 class _FavoriteTabState extends State<FavoriteTab> {
-  final TextEditingController searchController = .new();
+  final TextEditingController searchController = TextEditingController();
 
-  Stream<QuerySnapshot<Event>>? searchStream =
-      FirebaseUtils.getEventsCollection()
-          .where('isFavorite', isEqualTo: true)
+  Stream<QuerySnapshot<Event>>? searchStream;
+
+  @override
+  void initState() {
+    super.initState();
+    updateStream("");
+  }
+
+  void updateStream(String value) {
+    var collection = FirebaseUtils.getEventsCollection().where(
+      'isFavorite',
+      isEqualTo: true,
+    );
+    if (value.isEmpty) {
+      searchStream = collection.snapshots();
+    } else {
+      searchStream = collection
+          .where('title', isGreaterThanOrEqualTo: value)
+          .where('title', isLessThanOrEqualTo: '$value\uf8ff')
           .snapshots();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +52,7 @@ class _FavoriteTabState extends State<FavoriteTab> {
           controller: searchController,
           textInputAction: TextInputAction.search,
           onChanged: (value) {
-            searchStream = FirebaseUtils.getEventsCollection()
-                .where('title', isGreaterThanOrEqualTo: value)
-                .where('isFavorite', isEqualTo: true)
-                .snapshots();
+            _updateStream(value);
             setState(() {});
           },
           hintText: "search_for_event".tr(),
@@ -49,11 +64,7 @@ class _FavoriteTabState extends State<FavoriteTab> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot<Event>>(
-        stream: searchController.text.trim().isEmpty
-            ? FirebaseUtils.getEventsCollection()
-                  .where('isFavorite', isEqualTo: true)
-                  .snapshots()
-            : searchStream,
+        stream: searchStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -65,9 +76,7 @@ class _FavoriteTabState extends State<FavoriteTab> {
             );
           }
           if (snapshot.hasError) {
-            return Center(
-              child: Text("Something went wrong: ${snapshot.error}"),
-            );
+            return Center(child: Text("Error: ${snapshot.error}"));
           }
           final events =
               snapshot.data?.docs.map((doc) => doc.data()).toList() ?? [];

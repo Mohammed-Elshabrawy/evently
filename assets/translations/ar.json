@@ -59,5 +59,10 @@
   "event_added_successfully": "تمت إضافة الحدث بنجاح",
   "no_events_found": "لم يتم العثور على أي أحداث",
   "please_choose_event_time": "الرجاء اختيار وقت الحدث",
-  "please_choose_event_date": "الرجاء اختيار تاريخ الحدث"
+  "please_choose_event_date": "الرجاء اختيار تاريخ الحدث",
+  "event_details": "تفاصيل الحدث",
+  "edit_event": "تحرير الحدث",
+  "update_event": "تحديث الحدث",
+  "event_deleted_successfully": "تم حذف الحدث بنجاح",
+  "event_Updated_successfully": "تم تحديث الحدث بنجاح"
 }

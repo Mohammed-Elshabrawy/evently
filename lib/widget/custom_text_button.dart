@@ -11,10 +11,12 @@ class CustomTextButton extends StatelessWidget {
     required this.onPressed,
     required this.text,
     this.isGoogle = false,
+    this.isTimeOrDate = false,
   });
   final VoidCallback onPressed;
   final String text;
   final bool isGoogle;
+  final bool isTimeOrDate;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class CustomTextButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Text(
-        text.tr(),
+        isTimeOrDate ? text : text.tr(),
         style: AppTextStyles.sB14.copyWith(
           color: appSettingsProvider.isLight
               ? AppColors.mainColor

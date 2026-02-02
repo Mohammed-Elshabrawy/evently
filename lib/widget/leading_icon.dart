@@ -5,19 +5,28 @@ import '../providers/app_setting_provider.dart';
 import '../utils/app_colors.dart';
 import '../utils/responsive.dart';
 
-class LeadingIcon extends StatelessWidget {
-  const LeadingIcon({super.key, required this.onPressed});
+class AppBarCustomIcon extends StatelessWidget {
+  const AppBarCustomIcon({
+    super.key,
+    required this.onPressed,
+    this.isLeading = true,
+    this.icon = const Icon(Icons.arrow_back_ios_new_outlined),
+  });
   final VoidCallback onPressed;
+  final bool isLeading;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 16 * context.screenWidthRatio,
-        vertical: 2 * context.screenHeightRatio,
-      ),
-      padding: EdgeInsets.all(4 * context.screenWidthRatio),
+      margin: isLeading
+          ? EdgeInsets.symmetric(
+              horizontal: 22 * context.screenWidthRatio,
+              vertical: 6 * context.screenHeightRatio,
+            )
+          : EdgeInsets.zero,
+      padding: EdgeInsets.all(8 * context.screenWidthRatio),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: appSettingsProvider.isLight
@@ -31,13 +40,21 @@ class LeadingIcon extends StatelessWidget {
         ),
       ),
       child: IconButton(
-        onPressed: onPressed,
-        icon: Icon(
-          Icons.arrow_back_ios_new_outlined,
-          color: appSettingsProvider.isLight
-              ? AppColors.mainColor
-              : AppColors.whiteColor,
+        style: const ButtonStyle(
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
+        padding: EdgeInsets.zero,
+        constraints: BoxConstraints(),
+        splashRadius: 20,
+        onPressed: onPressed,
+        icon: isLeading
+            ? Icon(
+                Icons.arrow_back_ios_new_outlined,
+                color: appSettingsProvider.isLight
+                    ? AppColors.mainColor
+                    : AppColors.whiteColor,
+              )
+            : icon,
       ),
     );
   }

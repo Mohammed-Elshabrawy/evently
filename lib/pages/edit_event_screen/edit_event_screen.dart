@@ -1,29 +1,37 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently/firebase_utils.dart';
-import 'package:evently/pages/add_event_screen/widget/event_date_and_time.dart';
-import 'package:evently/utils/app_assets.dart';
-import 'package:evently/utils/app_text_styles.dart';
-import 'package:evently/utils/snack_bar_utils.dart';
-import 'package:evently/widget/custom_elevated_button.dart';
-import 'package:evently/widget/leading_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../firebase_utils.dart';
 import '../../models/event_model.dart';
 import '../../providers/app_setting_provider.dart';
+import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_routes.dart';
+import '../../utils/app_text_styles.dart';
 import '../../utils/responsive.dart';
+import '../../widget/custom_elevated_button.dart';
 import '../../widget/custom_text_form_filed.dart';
+import '../../widget/leading_icon.dart';
 import '../../widget/tab_widget.dart';
+import '../add_event_screen/widget/event_date_and_time.dart';
 
-class AppEventScreen extends StatefulWidget {
-  const AppEventScreen({super.key});
+class EditEventScreen extends StatefulWidget {
+  const EditEventScreen({super.key});
 
   @override
-  State<AppEventScreen> createState() => _AppEventScreenState();
+  State<EditEventScreen> createState() => _EditEventScreenState();
 }
 
-class _AppEventScreenState extends State<AppEventScreen> {
-  List<String> categories = [
+class _EditEventScreenState extends State<EditEventScreen> {
+  late Event event;
+  late DateTime selectedDate;
+  late TimeOfDay selectedTime;
+  late int selectedIndex;
+  late TextEditingController titleController;
+  late TextEditingController descriptionController;
+  bool isInitialized = false;
+
+  static const List<String> categories = [
     "sport",
     "book_club",
     "birthday",
@@ -31,7 +39,7 @@ class _AppEventScreenState extends State<AppEventScreen> {
     "exhibition",
   ];
 
-  List<IconData> icons = [
+  final List<IconData> icons = [
     Icons.directions_bike_outlined,
     Icons.book_outlined,
     Icons.cake_outlined,
@@ -39,16 +47,16 @@ class _AppEventScreenState extends State<AppEventScreen> {
     Icons.data_exploration_outlined,
   ];
 
-  List<int> index = [0, 1, 2, 3, 4];
+  final List<int> index = [0, 1, 2, 3, 4];
 
-  List<String> imagesLight = [
+  final List<String> imagesLight = [
     AppAssets.sportLight,
     AppAssets.bookClubLight,
     AppAssets.birthdayLight,
     AppAssets.meetingLight,
     AppAssets.exhibitionLight,
   ];
-  List<String> imagesDark = [
+  final List<String> imagesDark = [
     AppAssets.sportDark,
     AppAssets.bookClubDark,
     AppAssets.birthdayDark,
@@ -56,20 +64,38 @@ class _AppEventScreenState extends State<AppEventScreen> {
     AppAssets.exhibitionDark,
   ];
 
-  int selectedIndex = 0;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
 
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
   bool isDateErrorSeen = false;
   bool isTimeErrorSeen = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitialized) {
+      event = ModalRoute.of(context)!.settings.arguments as Event;
+      selectedDate = event.date;
+      final format = DateFormat.Hm();
+      final dateTime = format.parse(event.time);
+      selectedTime = TimeOfDay.fromDateTime(dateTime);
+      selectedIndex = categories.indexOf(event.name);
+      titleController = TextEditingController(text: event.title);
+      descriptionController = TextEditingController(text: event.description);
+      isInitialized = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 
   void chooseDate() async {
     var date = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
@@ -83,7 +109,7 @@ class _AppEventScreenState extends State<AppEventScreen> {
   void chooseTime() async {
     var time = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: selectedTime,
     );
     if (time != null) {
       setState(() {
@@ -103,7 +129,7 @@ class _AppEventScreenState extends State<AppEventScreen> {
           },
         ),
         title: Text(
-          'add_event'.tr(),
+          'edit_event'.tr(),
           style: AppTextStyles.m18.copyWith(
             color: appSettingsProvider.isLight
                 ? AppColors.mainTextColor
@@ -214,65 +240,52 @@ class _AppEventScreenState extends State<AppEventScreen> {
                   },
                 ),
                 EventDateAndTime(
+                  isEdit: true,
                   isDateOrTimeErrorSeen: isDateErrorSeen,
                   isDate: true,
                   onPressed: chooseDate,
-                  selectedDateOrTime: selectedDate != null
-                      ? DateFormat('MMM d,y').format(selectedDate!)
-                      : 'choose_date',
+                  selectedDateOrTime: DateFormat(
+                    'MMM d,y',
+                  ).format(selectedDate),
                 ),
                 EventDateAndTime(
+                  isEdit: true,
                   isDateOrTimeErrorSeen: isTimeErrorSeen,
                   isDate: false,
                   onPressed: chooseTime,
-                  selectedDateOrTime:
-                      selectedTime?.format(context) ?? 'choose_time',
+                  selectedDateOrTime: selectedTime.format(context),
                 ),
                 SizedBox(height: 20 * context.screenHeightRatio),
                 CustomElevatedButton(
-                  text: 'add_event',
+                  text: 'update_event',
                   onButtonPressed: () {
-                    if (selectedDate == null) {
-                      setState(() {
-                        isDateErrorSeen = true;
-                      });
-                    } else {
-                      setState(() {
-                        isDateErrorSeen = false;
-                      });
-                    }
-                    if (selectedTime == null) {
-                      setState(() {
-                        isTimeErrorSeen = true;
-                      });
-                    } else {
-                      setState(() {
-                        isTimeErrorSeen = false;
-                      });
-                    }
-                    if (formKey.currentState!.validate() &&
-                        selectedDate != null &&
-                        selectedTime != null) {
-                      Event event = Event(
+                    setState(() {
+                      isDateErrorSeen = false;
+                      isTimeErrorSeen = false;
+                    });
+                    if (formKey.currentState!.validate()) {
+                      Event newEvent = Event(
+                        id: event.id,
+                        isFavorite: event.isFavorite,
                         image: appSettingsProvider.isLight
                             ? imagesLight[selectedIndex]
                             : imagesDark[selectedIndex],
                         name: categories[selectedIndex],
                         title: titleController.text,
                         description: descriptionController.text,
-                        time: selectedTime!.format(context),
-                        date: selectedDate!,
+                        time: selectedTime.format(context),
+                        date: selectedDate,
                       );
-                      FirebaseUtils.addEventToFireStore(event).timeout(
-                        Duration(seconds: 0),
-                        onTimeout: () {
-                          SnackBarUtils.showSnackBar(
-                            context: context,
-                            appSettingsProvider: appSettingsProvider,
-                            message: 'event_added_successfully',
-                          );
-                          Navigator.pop(context);
-                        },
+                      FirebaseUtils.updateEvent(
+                        event: newEvent,
+                        eventId: event.id,
+                        context: context,
+                        appSettingsProvider: appSettingsProvider,
+                      );
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.homeLayoutRoute,
+                        (predicate) => false,
                       );
                     }
                   },
