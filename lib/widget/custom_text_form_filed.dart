@@ -6,6 +6,7 @@ import '../utils/app_colors.dart';
 import '../utils/app_text_styles.dart';
 
 typedef Validator = String? Function(String?);
+typedef OnChanged = void Function(String)?;
 
 class CustomTextFormFiled extends StatelessWidget {
   const CustomTextFormFiled({
@@ -19,6 +20,7 @@ class CustomTextFormFiled extends StatelessWidget {
     this.controller,
     this.validator,
     this.textInputAction,
+    this.onChanged,
   });
   final TextEditingController? controller;
   final int? maxLines;
@@ -29,6 +31,7 @@ class CustomTextFormFiled extends StatelessWidget {
   final Color? suffixColor;
   final Validator? validator;
   final TextInputAction? textInputAction;
+  final OnChanged? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,7 @@ class CustomTextFormFiled extends StatelessWidget {
       ),
     );
     return TextFormField(
+      onChanged: onChanged,
       textInputAction: textInputAction,
       controller: controller,
       validator: validator,
