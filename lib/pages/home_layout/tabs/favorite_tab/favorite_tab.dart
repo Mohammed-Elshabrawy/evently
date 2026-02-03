@@ -52,7 +52,7 @@ class _FavoriteTabState extends State<FavoriteTab> {
           controller: searchController,
           textInputAction: TextInputAction.search,
           onChanged: (value) {
-            _updateStream(value);
+            updateStream(value);
             setState(() {});
           },
           hintText: "search_for_event".tr(),

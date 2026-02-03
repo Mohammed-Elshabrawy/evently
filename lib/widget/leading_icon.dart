@@ -19,35 +19,29 @@ class AppBarCustomIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
-    return Container(
-      margin: isLeading
-          ? EdgeInsets.symmetric(
-              horizontal: 22 * context.screenWidthRatio,
-              vertical: 6 * context.screenHeightRatio,
-            )
-          : EdgeInsets.zero,
-      padding: EdgeInsets.all(8 * context.screenWidthRatio),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: appSettingsProvider.isLight
-            ? AppColors.whiteColor
-            : AppColors.inputsColor,
-        border: Border.all(
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        margin: isLeading
+            ? EdgeInsets.symmetric(
+                horizontal: 22 * context.screenWidthRatio,
+                vertical: 6 * context.screenHeightRatio,
+              )
+            : EdgeInsets.zero,
+        padding: EdgeInsets.all(8 * context.screenWidthRatio),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
           color: appSettingsProvider.isLight
-              ? AppColors.strokeColor
-              : AppColors.darkStrokeColor,
-          width: 1,
+              ? AppColors.whiteColor
+              : AppColors.inputsColor,
+          border: Border.all(
+            color: appSettingsProvider.isLight
+                ? AppColors.strokeColor
+                : AppColors.darkStrokeColor,
+            width: 1,
+          ),
         ),
-      ),
-      child: IconButton(
-        style: const ButtonStyle(
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-        padding: EdgeInsets.zero,
-        constraints: BoxConstraints(),
-        splashRadius: 20,
-        onPressed: onPressed,
-        icon: isLeading
+        child: isLeading
             ? Icon(
                 Icons.arrow_back_ios_new_outlined,
                 color: appSettingsProvider.isLight
