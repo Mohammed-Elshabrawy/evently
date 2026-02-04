@@ -113,6 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       } else if (password.length < 6) {
                         return 'password_must_be_at_least_6_characters'.tr();
                       }
+                      return null;
                     },
                   ),
                   CustomTextFormFiled(
