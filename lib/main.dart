@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.eventDetailsScreen: (context) => EventDetailsScreen(),
         AppRoutes.editEventScreen: (context) => EditEventScreen(),
       },
-      initialRoute: AppRoutes.homeLayoutRoute,
+      initialRoute: AppRoutes.loginRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       debugShowCheckedModeBanner: false,

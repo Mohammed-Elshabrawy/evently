@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/app_setting_provider.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_text_styles.dart';
@@ -21,6 +20,8 @@ class CustomTextFormFiled extends StatelessWidget {
     this.validator,
     this.textInputAction,
     this.onChanged,
+    this.obscureText = false,
+    this.onSuffixPressed,
   });
   final TextEditingController? controller;
   final int? maxLines;
@@ -32,6 +33,8 @@ class CustomTextFormFiled extends StatelessWidget {
   final Validator? validator;
   final TextInputAction? textInputAction;
   final OnChanged? onChanged;
+  final bool obscureText;
+  final void Function()? onSuffixPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,10 @@ class CustomTextFormFiled extends StatelessWidget {
       ),
     );
     return TextFormField(
+      onTapUpOutside: (event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      obscureText: obscureText,
       onChanged: onChanged,
       textInputAction: textInputAction,
       controller: controller,
@@ -76,9 +83,8 @@ class CustomTextFormFiled extends StatelessWidget {
         enabledBorder: border,
         suffixIcon: suffix != null
             ? InkWell(
-                onTap: () {
-                  //Todo: add password visibility
-                },
+                borderRadius: BorderRadius.circular(16),
+                onTap: onSuffixPressed,
                 child: Icon(
                   suffix,
                   color: suffixColor ?? AppColors.disableColor,
