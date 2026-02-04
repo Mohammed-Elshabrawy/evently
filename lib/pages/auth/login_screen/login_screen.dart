@@ -13,8 +13,21 @@ import '../../../utils/app_text_styles.dart';
 import '../../../widget/custom_text_button.dart';
 import '../../../widget/custom_text_form_filed.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+
+  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,88 +39,124 @@ class LoginScreen extends StatelessWidget {
             horizontal: 15 * context.screenWidthRatio,
           ),
           child: SingleChildScrollView(
-            child: Column(
-              spacing: 20 * context.screenHeightRatio,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Image.asset(
-                  getImageByMode(
-                    light: AppAssets.logoLight,
-                    dark: AppAssets.logoDark,
-                    isLight: appSettingsProvider.isLight,
-                  ),
-                ),
-                Text(
-                  "login_to_your_account".tr(),
-                  style: AppTextStyles.sB24.copyWith(
-                    color: appSettingsProvider.isLight
-                        ? AppColors.mainColor
-                        : AppColors.whiteColor,
-                  ),
-                ),
-                CustomTextFormFiled(
-                  prefix: Icons.email_outlined,
-                  hintText: "enter_your_email".tr(),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                CustomTextFormFiled(
-                  prefix: Icons.lock_outline_rounded,
-                  hintText: "enter_your_password".tr(),
-                  keyboardType: TextInputType.text,
-                  suffix: Icons.visibility_outlined,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: CustomTextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.forgotPasswordRoute,
-                      );
-                    },
-                    text: 'forget_password? ',
-                  ),
-                ),
-                SizedBox(height: 30 * context.screenHeightRatio),
-                CustomElevatedButton(
-                  text: "login",
-                  onButtonPressed: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      AppRoutes.homeLayoutRoute,
-                    );
-                  },
-                ),
-                SizedBox(height: 30 * context.screenHeightRatio),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "don’t_have_an_account ?".tr(),
-                      style: AppTextStyles.r14.copyWith(
-                        color: appSettingsProvider.isLight
-                            ? AppColors.secTextColor
-                            : AppColors.darkSecTextColor,
-                      ),
+            child: Form(
+              key: formKey,
+              child: Column(
+                spacing: 20 * context.screenHeightRatio,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Image.asset(
+                    getImageByMode(
+                      light: AppAssets.logoLight,
+                      dark: AppAssets.logoDark,
+                      isLight: appSettingsProvider.isLight,
                     ),
-                    CustomTextButton(
+                  ),
+                  Text(
+                    "login_to_your_account".tr(),
+                    style: AppTextStyles.sB24.copyWith(
+                      color: appSettingsProvider.isLight
+                          ? AppColors.mainColor
+                          : AppColors.whiteColor,
+                    ),
+                  ),
+                  CustomTextFormFiled(
+                    textInputAction: TextInputAction.next,
+                    controller: emailController,
+                    prefix: Icons.email_outlined,
+                    hintText: "enter_your_email".tr(),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (email) {
+                      if (email == null || email.trim().isEmpty) {
+                        return 'please_enter_email'.tr();
+                      } else if (!RegExp(
+                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(email)) {
+                        return 'please_enter_valid_email'.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  CustomTextFormFiled(
+                    maxLines: 1,
+                    obscureText: !isPasswordVisible,
+                    textInputAction: TextInputAction.done,
+                    controller: passwordController,
+                    prefix: Icons.lock_outline_rounded,
+                    hintText: "enter_your_password".tr(),
+                    keyboardType: TextInputType.text,
+                    suffix: isPasswordVisible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    onSuffixPressed: () {
+                      setState(() {
+                        isPasswordVisible = !isPasswordVisible;
+                      });
+                    },
+                    validator: (password) {
+                      if (password == null || password.trim().isEmpty) {
+                        return 'please_enter_password'.tr();
+                      } else if (password.length < 6) {
+                        return 'password_must_be_at_least_6_characters'.tr();
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: CustomTextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(
+                        Navigator.pushNamed(
                           context,
-                          AppRoutes.signupRoute,
+                          AppRoutes.forgotPasswordRoute,
                         );
                       },
-                      text: 'signup',
+                      text: 'forget_password? ',
                     ),
-                  ],
-                ),
-                CustomDivider(),
-                CustomElevatedButton(
-                  text: 'login_with_Google',
-                  onButtonPressed: () {},
-                  isGoogle: true,
-                ),
-              ],
+                  ),
+                  SizedBox(height: 30 * context.screenHeightRatio),
+                  CustomElevatedButton(
+                    text: "login",
+                    onButtonPressed: () {
+                      formKey.currentState!.validate();
+                    /*  Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.homeLayoutRoute,
+                      );*/
+                    },
+                  ),
+                  SizedBox(height: 30 * context.screenHeightRatio),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "don’t_have_an_account ?".tr(),
+                        style: AppTextStyles.r14.copyWith(
+                          color: appSettingsProvider.isLight
+                              ? AppColors.secTextColor
+                              : AppColors.darkSecTextColor,
+                        ),
+                      ),
+                      CustomTextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRoutes.signupRoute,
+                          );
+                        },
+                        text: 'signup',
+                      ),
+                    ],
+                  ),
+                  CustomDivider(),
+                  CustomElevatedButton(
+                    text: 'login_with_Google',
+                    onButtonPressed: () {},
+                    isGoogle: true,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

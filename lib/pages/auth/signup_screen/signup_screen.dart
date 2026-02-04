@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/models/user_model.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,21 @@ import '../../../widget/custom_text_form_filed.dart';
 import '../widget/custom_divider.dart';
 import '../../../widget/custom_text_button.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isPasswordVisible = false;
+  bool isConfirmPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,85 +40,155 @@ class SignUpScreen extends StatelessWidget {
             horizontal: 15 * context.screenWidthRatio,
           ),
           child: SingleChildScrollView(
-            child: Column(
-              spacing: 20 * context.screenHeightRatio,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Image.asset(
-                  getImageByMode(
-                    light: AppAssets.logoLight,
-                    dark: AppAssets.logoDark,
-                    isLight: appSettingsProvider.isLight,
+            child: Form(
+              key: formKey,
+              child: Column(
+                spacing: 20 * context.screenHeightRatio,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Image.asset(
+                    getImageByMode(
+                      light: AppAssets.logoLight,
+                      dark: AppAssets.logoDark,
+                      isLight: appSettingsProvider.isLight,
+                    ),
                   ),
-                ),
-                Text(
-                  "create_your_account".tr(),
-                  style: AppTextStyles.sB24.copyWith(
-                    color: appSettingsProvider.isLight
-                        ? AppColors.mainColor
-                        : AppColors.whiteColor,
+                  Text(
+                    "create_your_account".tr(),
+                    style: AppTextStyles.sB24.copyWith(
+                      color: appSettingsProvider.isLight
+                          ? AppColors.mainColor
+                          : AppColors.whiteColor,
+                    ),
                   ),
-                ),
-                CustomTextFormFiled(
-                  prefix: Icons.person_outline_outlined,
-                  hintText: "enter_your_name".tr(),
-                  keyboardType: TextInputType.name,
-                ),
-                CustomTextFormFiled(
-                  prefix: Icons.email_outlined,
-                  hintText: "enter_your_email".tr(),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                CustomTextFormFiled(
-                  prefix: Icons.lock_outline_rounded,
-                  hintText: "enter_your_password".tr(),
-                  keyboardType: TextInputType.text,
-                  suffix: Icons.visibility_outlined,
-                ),
-                CustomTextFormFiled(
-                  prefix: Icons.lock_outline_rounded,
-                  hintText: "confirm_your_password".tr(),
-                  keyboardType: TextInputType.text,
-                  suffix: Icons.visibility_outlined,
-                ),
-                SizedBox(height: 30 * context.screenHeightRatio),
-                CustomElevatedButton(
-                  text: "signup",
-                  onButtonPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      AppRoutes.forgotPasswordRoute,
-                          (route) => false,
-                    );
-                  },
-                ),
-                SizedBox(height: 30 * context.screenHeightRatio),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "already_have_an_account?".tr(),
-                      style: AppTextStyles.r14.copyWith(
-                        color: appSettingsProvider.isLight
-                            ? AppColors.secTextColor
-                            : AppColors.darkSecTextColor,
+                  CustomTextFormFiled(
+                    controller: nameController,
+                    textInputAction: TextInputAction.next,
+                    prefix: Icons.person_outline_outlined,
+                    hintText: "enter_your_name".tr(),
+                    keyboardType: TextInputType.name,
+                    validator: (name) {
+                      if (name == null || name.trim().isEmpty) {
+                        return 'please_enter_name'.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  CustomTextFormFiled(
+                    controller: emailController,
+                    textInputAction: TextInputAction.next,
+                    prefix: Icons.email_outlined,
+                    hintText: "enter_your_email".tr(),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (email) {
+                      if (email == null || email.trim().isEmpty) {
+                        return 'please_enter_email'.tr();
+                      } else if (!RegExp(
+                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(email)) {
+                        return 'please_enter_valid_email'.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  CustomTextFormFiled(
+                    onSuffixPressed: () {
+                      setState(() {
+                        isPasswordVisible = !isPasswordVisible;
+                      });
+                    },
+                    obscureText: !isPasswordVisible,
+                    maxLines: 1,
+                    controller: passwordController,
+                    textInputAction: TextInputAction.next,
+                    prefix: Icons.lock_outline_rounded,
+                    hintText: "enter_your_password".tr(),
+                    keyboardType: TextInputType.text,
+                    suffix: isPasswordVisible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    validator: (password) {
+                      if (password == null || password.trim().isEmpty) {
+                        return 'please_enter_password'.tr();
+                      } else if (password.length < 6) {
+                        return 'password_must_be_at_least_6_characters'.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  CustomTextFormFiled(
+                    onSuffixPressed: () {
+                      setState(() {
+                        isConfirmPasswordVisible = !isConfirmPasswordVisible;
+                      });
+                    },
+                    obscureText: !isConfirmPasswordVisible,
+                    maxLines: 1,
+                    controller: confirmPasswordController,
+                    textInputAction: TextInputAction.done,
+                    prefix: Icons.lock_outline_rounded,
+                    hintText: "confirm_your_password".tr(),
+                    keyboardType: TextInputType.text,
+                    suffix: isConfirmPasswordVisible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    validator: (confirmPassword) {
+                      if (confirmPassword == null ||
+                          confirmPassword.trim().isEmpty) {
+                        return 'please_enter_confirm_password'.tr();
+                      } else if (confirmPassword != passwordController.text) {
+                        return 'passwords_do_not_match'.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 30 * context.screenHeightRatio),
+                  CustomElevatedButton(
+                    text: "signup",
+                    onButtonPressed: () {
+                      formKey.currentState!.validate();
+                      MyUser user = MyUser(
+                        name: nameController.text,
+                        email: emailController.text,
+                      );
+                      /*Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.forgotPasswordRoute,
+                        (route) => false,
+                      );*/
+                    },
+                  ),
+                  SizedBox(height: 30 * context.screenHeightRatio),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "already_have_an_account?".tr(),
+                        style: AppTextStyles.r14.copyWith(
+                          color: appSettingsProvider.isLight
+                              ? AppColors.secTextColor
+                              : AppColors.darkSecTextColor,
+                        ),
                       ),
-                    ),
-                    CustomTextButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
-                      },
-                      text: 'login',
-                    ),
-                  ],
-                ),
-                CustomDivider(),
-                CustomElevatedButton(
-                  text: 'sign_up_with_Google',
-                  onButtonPressed: () {},
-                  isGoogle: true,
-                ),
-              ],
+                      CustomTextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRoutes.loginRoute,
+                          );
+                        },
+                        text: 'login',
+                      ),
+                    ],
+                  ),
+                  CustomDivider(),
+                  CustomElevatedButton(
+                    text: 'sign_up_with_Google',
+                    onButtonPressed: () {},
+                    isGoogle: true,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
