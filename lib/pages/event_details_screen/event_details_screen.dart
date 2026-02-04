@@ -8,6 +8,7 @@ import '../../providers/app_setting_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../utils/app_text_styles.dart';
+import '../../utils/dialog_utils.dart';
 import '../../utils/responsive.dart';
 import '../../widget/leading_icon.dart';
 
@@ -67,7 +68,19 @@ class EventDetailsScreen extends StatelessWidget {
             isLeading: false,
             onPressed: () {
               ///todo:delete event
-              FirebaseUtils.deleteEvent(event.id, context, appSettingsProvider);
+              ///todo:show dialog
+              DialogUtils.showDeleteDialog(
+                context: context,
+                appSettingsProvider: appSettingsProvider,
+                positiveAction: () {
+                  FirebaseUtils.deleteEvent(
+                    event.id,
+                    context,
+                    appSettingsProvider,
+                  );
+
+                },
+              );
             },
           ),
         ],

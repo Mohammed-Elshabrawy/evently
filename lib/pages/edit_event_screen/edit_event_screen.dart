@@ -282,11 +282,11 @@ class _EditEventScreenState extends State<EditEventScreen> {
                         context: context,
                         appSettingsProvider: appSettingsProvider,
                       );
-                      Navigator.pushNamedAndRemoveUntil(
+                    /*  Navigator.pushNamedAndRemoveUntil(
                         context,
                         AppRoutes.homeLayoutRoute,
                         (predicate) => false,
-                      );
+                      );*/
                     }
                   },
                 ),

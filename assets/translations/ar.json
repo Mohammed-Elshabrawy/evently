@@ -64,5 +64,9 @@
   "edit_event": "تحرير الحدث",
   "update_event": "تحديث الحدث",
   "event_deleted_successfully": "تم حذف الحدث بنجاح",
-  "event_Updated_successfully": "تم تحديث الحدث بنجاح"
+  "event_Updated_successfully": "تم تحديث الحدث بنجاح",
+  "delete_event": "حذف الحدث",
+  "are_you_sure_to_delete": "هل أنت متأكد من الحذف؟",
+  "yes": "نعم",
+  "no": "لا"
 }

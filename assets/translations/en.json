@@ -64,5 +64,9 @@
   "edit_event": "Edit event",
   "update_event": "Update Event",
   "event_deleted_successfully": "Event Deleted Successfully",
-  "event_Updated_successfully": "Event Updated Successfully"
+  "event_Updated_successfully": "Event Updated Successfully",
+  "delete_event": "Delete Event",
+  "are_you_sure_to_delete": "Are You Sure to Delete?",
+  "yes": "Yes",
+  "no": "No"
 }
