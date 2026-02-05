@@ -6,29 +6,30 @@ import 'app_colors.dart';
 import 'app_text_styles.dart';
 
 class DialogUtils {
-  static void showDeleteDialog({
+  static void showEnsureDialog({
     required BuildContext context,
     required AppSettingProvider appSettingsProvider,
     required void Function() positiveAction,
     void Function()? negativeAction,
+    required String title,
+    required String content,
+    required String positiveText,
+    required String negativeText,
   }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          actionsAlignment: MainAxisAlignment.spaceBetween,
           backgroundColor: appSettingsProvider.isLight
               ? AppColors.whiteColor
               : AppColors.inputsColor,
           title: Text(
-            'delete_event'.tr(),
-            style: AppTextStyles.sB20.copyWith(
-              color: appSettingsProvider.isLight
-                  ? AppColors.mainTextColor
-                  : AppColors.whiteColor,
-            ),
+            title.tr(),
+            style: AppTextStyles.sB20.copyWith(color: AppColors.redColor),
           ),
           content: Text(
-            'are_you_sure_to_delete'.tr(),
+            content.tr(),
             style: AppTextStyles.sB16.copyWith(
               color: appSettingsProvider.isLight
                   ? AppColors.mainTextColor
@@ -37,7 +38,8 @@ class DialogUtils {
           ),
           actions: [
             CustomElevatedButton(
-              text: "no",
+              isInDialog: true,
+              text: negativeText,
               onButtonPressed:
                   negativeAction ??
                   () {
@@ -45,10 +47,10 @@ class DialogUtils {
                   },
             ),
             CustomElevatedButton(
-              text: "yes",
+              isInDialog: true,
+              text: positiveText,
               onButtonPressed: () {
                 positiveAction();
-
               },
             ),
           ],

@@ -4,10 +4,12 @@ import 'package:evently/utils/app_routes.dart';
 import 'package:evently/utils/snack_bar_utils.dart';
 import 'package:flutter/material.dart';
 import 'models/event_model.dart';
+import 'models/user_model.dart';
 
 class FirebaseUtils {
-  static CollectionReference<Event> getEventsCollection() {
-    return FirebaseFirestore.instance
+  static CollectionReference<Event> getEventsCollection(String uId) {
+    return getUserCollection()
+        .doc(uId)
         .collection(Event.collectionName)
         .withConverter<Event>(
           fromFirestore: (snapshot, _) => Event.fromFireStore(snapshot.data()!),
@@ -15,8 +17,18 @@ class FirebaseUtils {
         );
   }
 
-  static Future<void> addEventToFireStore(Event event) {
-    CollectionReference<Event> eventsCollection = getEventsCollection();
+  static CollectionReference<MyUser> getUserCollection() {
+    return FirebaseFirestore.instance
+        .collection(MyUser.collectionName)
+        .withConverter<MyUser>(
+          fromFirestore: (snapshot, _) =>
+              MyUser.fromFireStore(snapshot.data()!),
+          toFirestore: (myUser, _) => myUser.toFireStore(),
+        );
+  }
+
+  static Future<void> addEventToFireStore(Event event, String uId) {
+    CollectionReference<Event> eventsCollection = getEventsCollection(uId);
     DocumentReference<Event> eventDoc = eventsCollection.doc();
     event.id = eventDoc.id;
     return eventDoc.set(event);
@@ -26,44 +38,36 @@ class FirebaseUtils {
     Event event,
     BuildContext context,
     AppSettingProvider appSettingsProvider,
+    String uId,
   ) {
-    getEventsCollection()
-        .doc(event.id)
-        .update({'isFavorite': !event.isFavorite})
-        .timeout(
-          Duration(microseconds: 500),
-          onTimeout: () {
-            SnackBarUtils.showSnackBar(
-              context: context,
-              appSettingsProvider: appSettingsProvider,
-              message: 'event_Updated_successfully',
-              isError: false,
-            );
-          },
-        );
+    getEventsCollection(
+      uId,
+    ).doc(event.id).update({'isFavorite': !event.isFavorite}).then((_) {
+      SnackBarUtils.showSnackBar(
+        context: context,
+        appSettingsProvider: appSettingsProvider,
+        message: 'event_Updated_successfully',
+        isError: false,
+      );
+    });
   }
 
   static Future<void> deleteEvent(
     String eventId,
     BuildContext context,
     AppSettingProvider appSettingsProvider,
+    String uId,
   ) async {
-    await getEventsCollection()
-        .doc(eventId)
-        .delete()
-        .timeout(
-          Duration(microseconds: 500),
-          onTimeout: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            SnackBarUtils.showSnackBar(
-              context: context,
-              appSettingsProvider: appSettingsProvider,
-              message: 'event_deleted_successfully',
-              isError: true,
-            );
-          },
-        );
+    await getEventsCollection(uId).doc(eventId).delete().then((_) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+      SnackBarUtils.showSnackBar(
+        context: context,
+        appSettingsProvider: appSettingsProvider,
+        message: 'event_deleted_successfully',
+        isError: true,
+      );
+    });
   }
 
   static void updateEvent({
@@ -71,8 +75,9 @@ class FirebaseUtils {
     required String eventId,
     required BuildContext context,
     required AppSettingProvider appSettingsProvider,
+    required String uId,
   }) {
-    getEventsCollection()
+    getEventsCollection(uId)
         .doc(eventId)
         .update({
           'title': event.title,
@@ -83,21 +88,18 @@ class FirebaseUtils {
           'name': event.name,
           'image': event.image,
         })
-        .timeout(
-          Duration(seconds: 1),
-          onTimeout: () {
-            SnackBarUtils.showSnackBar(
-              context: context,
-              appSettingsProvider: appSettingsProvider,
-              message: 'event_Updated_successfully',
-            );
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              AppRoutes.homeLayoutRoute,
-              (predicate) => false,
-            );
-          },
-        )
+        .then((_) {
+          SnackBarUtils.showSnackBar(
+            context: context,
+            appSettingsProvider: appSettingsProvider,
+            message: 'event_Updated_successfully',
+          );
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.homeLayoutRoute,
+            (predicate) => false,
+          );
+        })
         .catchError((error) {
           SnackBarUtils.showSnackBar(
             context: context,
@@ -106,5 +108,14 @@ class FirebaseUtils {
             isError: true,
           );
         });
+  }
+
+  static Future<void> addUserToFireStore(MyUser user) {
+    return getUserCollection().doc(user.id).set(user);
+  }
+
+  static Future<MyUser?> readUserFromFireStore(String uId) async {
+    var querySnapshot = await getUserCollection().doc(uId).get();
+    return querySnapshot.data();
   }
 }

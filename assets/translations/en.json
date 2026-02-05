@@ -74,5 +74,13 @@
   "please_enter_password": "Please enter the password",
   "password_must_be_at_least_6_characters": "Password must be at least 6 characters",
   "please_enter_name": "Please enter your name",
-  "please_enter_confirm_password": "Please enter your confirmation password"
+  "please_enter_confirm_password": "Please enter your confirmation password",
+  "the_account_already_exists_for_that_email.": "The account already exists for that email.",
+  "the_password_provided_is_too_weak.": "The password provided is too weak.",
+  "success_register": "Registered Successfully",
+  "logged_in_successfully": "Logged in successfully",
+  "wrong_email_or_password": "Wrong email or password",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "are_you_sure_to_logout": "Are you sure?"
 }

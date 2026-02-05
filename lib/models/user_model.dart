@@ -1,7 +1,7 @@
 class MyUser {
   String id, name, email;
 
-  static const String collectionName = 'user';
+  static const String collectionName = 'users';
 
   MyUser({this.id = '', required this.name, required this.email});
 

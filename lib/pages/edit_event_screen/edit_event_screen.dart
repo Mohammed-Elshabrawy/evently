@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import '../../firebase_utils.dart';
 import '../../models/event_model.dart';
 import '../../providers/app_setting_provider.dart';
+import '../../providers/user_provider.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
-import '../../utils/app_routes.dart';
 import '../../utils/app_text_styles.dart';
 import '../../utils/responsive.dart';
 import '../../widget/custom_elevated_button.dart';
@@ -121,6 +121,8 @@ class _EditEventScreenState extends State<EditEventScreen> {
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: AppBarCustomIcon(
@@ -176,6 +178,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                     initialIndex: selectedIndex,
                     length: index.length,
                     child: TabBar(
+                      splashBorderRadius: BorderRadius.circular(16),
                       tabs: index.map((index) {
                         return TabWidget(
                           title: categories[index],
@@ -281,8 +284,9 @@ class _EditEventScreenState extends State<EditEventScreen> {
                         eventId: event.id,
                         context: context,
                         appSettingsProvider: appSettingsProvider,
+                        uId: userProvider.currentUser!.id,
                       );
-                    /*  Navigator.pushNamedAndRemoveUntil(
+                      /*  Navigator.pushNamedAndRemoveUntil(
                         context,
                         AppRoutes.homeLayoutRoute,
                         (predicate) => false,

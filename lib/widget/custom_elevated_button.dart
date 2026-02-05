@@ -13,17 +13,24 @@ class CustomElevatedButton extends StatelessWidget {
     required this.text,
     required this.onButtonPressed,
     this.isGoogle = false,
+    this.isInDialog = false,
   });
   final String text;
   final VoidCallback onButtonPressed;
   final bool isGoogle;
+  final bool isInDialog;
 
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 10 * context.screenHeightRatio),
+        padding: EdgeInsets.symmetric(
+          vertical: 10 * context.screenHeightRatio,
+          horizontal: isInDialog
+              ? 20 * context.screenWidthRatio
+              : 0 * context.screenWidthRatio,
+        ),
         backgroundColor: isGoogle
             ? appSettingsProvider.isLight
                   ? AppColors.whiteColor

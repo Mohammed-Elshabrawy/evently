@@ -22,4 +22,27 @@ class SnackBarUtils {
       ),
     );
   }
+
+  static void showSnackBarLoading({
+    required BuildContext context,
+    required AppSettingProvider appSettingsProvider,
+  }) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 4),
+        backgroundColor: appSettingsProvider.isLight
+            ? AppColors.bgColor
+            : AppColors.darkBGColor,
+        content: LinearProgressIndicator(
+          backgroundColor: appSettingsProvider.isLight
+              ? AppColors.strokeColor
+              : AppColors.darkStrokeColor,
+          minHeight: 5,
+          color: appSettingsProvider.isLight
+              ? AppColors.mainColor
+              : AppColors.darkMainColor,
+        ),
+      ),
+    );
+  }
 }

@@ -10,6 +10,7 @@ import 'package:evently/pages/home_layout/home_layout.dart';
 import 'package:evently/pages/onboarding/onboarding.dart';
 import 'package:evently/pages/settings_screen/settings_screen.dart';
 import 'package:evently/providers/app_setting_provider.dart';
+import 'package:evently/providers/user_provider.dart';
 import 'package:evently/utils/app_routes.dart';
 import 'package:evently/utils/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,16 +23,21 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
-  await FirebaseFirestore.instance.disableNetwork();
+  await FirebaseFirestore.instance.enableNetwork();
   await EasyLocalization.ensureInitialized();
 
   final appSettingProvider = AppSettingProvider();
+  final userProvider = UserProvider();
+
   appSettingProvider.loadTheme();
   appSettingProvider.loadLang();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (BuildContext context) => appSettingProvider,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => appSettingProvider),
+        ChangeNotifierProvider(create: (context) => userProvider),
+      ],
       child: Consumer<AppSettingProvider>(
         builder: (context, provider, child) {
           return EasyLocalization(

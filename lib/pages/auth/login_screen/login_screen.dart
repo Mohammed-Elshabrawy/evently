@@ -4,12 +4,16 @@ import 'package:evently/widget/custom_elevated_button.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/responsive.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../firebase_utils.dart';
 import '../../../functions/get_image/get_image.dart';
 import '../../../providers/app_setting_provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../../utils/app_routes.dart';
 import '../../../utils/app_text_styles.dart';
+import '../../../utils/snack_bar_utils.dart';
 import '../../../widget/custom_text_button.dart';
 import '../../../widget/custom_text_form_filed.dart';
 
@@ -21,11 +25,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
+  TextEditingController emailController = TextEditingController(
+    text: 'mohammed@gmail.com',
+  );
 
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordController = TextEditingController(
+    text: '123456',
+  );
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
 
   bool isPasswordVisible = false;
 
@@ -119,12 +126,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   CustomElevatedButton(
                     text: "login",
                     onButtonPressed: () {
-                      formKey.currentState!.validate();
+                      login(appSettingsProvider);
+                    },
                     /*  Navigator.pushReplacementNamed(
                         context,
                         AppRoutes.homeLayoutRoute,
                       );*/
-                    },
                   ),
                   SizedBox(height: 30 * context.screenHeightRatio),
                   Row(
@@ -162,5 +169,49 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void login(AppSettingProvider appSettingsProvider) async {
+    if (formKey.currentState!.validate()) {
+      SnackBarUtils.showSnackBarLoading(
+        context: context,
+        appSettingsProvider: appSettingsProvider,
+      );
+      try {
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+              email: emailController.text,
+              password: passwordController.text,
+            );
+        var user = await FirebaseUtils.readUserFromFireStore(
+          credential.user!.uid,
+        );
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.updateUser(user!);
+        Navigator.pushReplacementNamed(context, AppRoutes.homeLayoutRoute);
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        SnackBarUtils.showSnackBar(
+          context: context,
+          appSettingsProvider: appSettingsProvider,
+          message: "logged_in_successfully",
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'invalid-credential') {
+          SnackBarUtils.showSnackBar(
+            context: context,
+            appSettingsProvider: appSettingsProvider,
+            message: "wrong_email_or_password",
+            isError: true,
+          );
+        }
+      } catch (e) {
+        SnackBarUtils.showSnackBar(
+          context: context,
+          appSettingsProvider: appSettingsProvider,
+          message: e.toString(),
+          isError: true,
+        );
+      }
+    }
   }
 }

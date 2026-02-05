@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../../firebase_utils.dart';
 import '../../../../models/event_model.dart';
 import '../../../../providers/app_setting_provider.dart';
+import '../../../../providers/user_provider.dart';
 import '../../../../utils/app_text_styles.dart';
 import '../../../../widget/custom_text_form_filed.dart';
 import '../home_tab/widget/event_item.dart';
@@ -19,40 +20,46 @@ class FavoriteTab extends StatefulWidget {
 
 class _FavoriteTabState extends State<FavoriteTab> {
   final TextEditingController searchController = TextEditingController();
+  late UserProvider userProvider;
 
   Stream<QuerySnapshot<Event>>? searchStream;
 
   @override
   void initState() {
     super.initState();
-    updateStream("");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      updateStream("", userProvider.currentUser!.id);
+    });
   }
 
-  void updateStream(String value) {
-    var collection = FirebaseUtils.getEventsCollection().where(
-      'isFavorite',
-      isEqualTo: true,
-    );
+  void updateStream(String value, String uId) {
+    var collection = FirebaseUtils.getEventsCollection(
+      uId,
+    ).where('isFavorite', isEqualTo: true);
     if (value.isEmpty) {
       searchStream = collection.snapshots();
+      setState(() {});
     } else {
       searchStream = collection
           .where('title', isGreaterThanOrEqualTo: value)
           .where('title', isLessThanOrEqualTo: '$value\uf8ff')
+          .orderBy('date')
           .snapshots();
     }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: CustomTextFormFiled(
           controller: searchController,
           textInputAction: TextInputAction.search,
           onChanged: (value) {
-            updateStream(value);
+            updateStream(value.trim(), userProvider.currentUser!.id);
             setState(() {});
           },
           hintText: "search_for_event".tr(),

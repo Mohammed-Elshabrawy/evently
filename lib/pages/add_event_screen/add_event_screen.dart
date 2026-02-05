@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/event_model.dart';
 import '../../providers/app_setting_provider.dart';
+import '../../providers/user_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/responsive.dart';
 import '../../widget/custom_text_form_filed.dart';
@@ -95,6 +96,7 @@ class _AppEventScreenState extends State<AppEventScreen> {
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: AppBarCustomIcon(
@@ -150,6 +152,7 @@ class _AppEventScreenState extends State<AppEventScreen> {
                     initialIndex: selectedIndex,
                     length: index.length,
                     child: TabBar(
+                      splashBorderRadius: BorderRadius.circular(16),
                       tabs: index.map((index) {
                         return TabWidget(
                           title: categories[index],
@@ -263,17 +266,17 @@ class _AppEventScreenState extends State<AppEventScreen> {
                         time: selectedTime!.format(context),
                         date: selectedDate!,
                       );
-                      FirebaseUtils.addEventToFireStore(event).timeout(
-                        Duration(seconds: 0),
-                        onTimeout: () {
-                          SnackBarUtils.showSnackBar(
-                            context: context,
-                            appSettingsProvider: appSettingsProvider,
-                            message: 'event_added_successfully',
-                          );
-                          Navigator.pop(context);
-                        },
-                      );
+                      FirebaseUtils.addEventToFireStore(
+                        event,
+                        userProvider.currentUser!.id,
+                      ).then((_) {
+                        SnackBarUtils.showSnackBar(
+                          context: context,
+                          appSettingsProvider: appSettingsProvider,
+                          message: 'event_added_successfully',
+                        );
+                        Navigator.pop(context);
+                      },);
                     }
                   },
                 ),
