@@ -74,5 +74,13 @@
   "please_enter_password": "الرجاء إدخال كلمة المرور",
   "password_must_be_at_least_6_characters": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
   "please_enter_name": "الرجاء إدخال اسمك",
-  "please_enter_confirm_password": "الرجاء إدخال كلمة مرور التأكيد الخاصة بك"
+  "please_enter_confirm_password": "الرجاء إدخال كلمة مرور التأكيد الخاصة بك",
+  "the_account_already_exists_for_that_email.": "الحساب موجود بالفعل لهذا البريد الإلكتروني.",
+  "the_password_provided_is_too_weak.": "كلمة المرور المقدمة ضعيفة للغاية.",
+  "success_register": "تم التسجيل بنجاح",
+  "logged_in_successfully": "تم تسجيل الدخول بنجاح",
+  "wrong_email_or_password": "بريد إلكتروني أو كلمة مرور خاطئة",
+  "delete": "حذف",
+  "cancel": "إلغاء",
+  "are_you_sure_to_logout": "هل انت متأكد؟"
 }

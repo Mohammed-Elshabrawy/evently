@@ -1,12 +1,15 @@
 import 'package:evently/pages/home_layout/tabs/profile_tab/widget/lang_item.dart';
 import 'package:evently/pages/home_layout/tabs/profile_tab/widget/settings_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../../../models/user_model.dart';
 import '../../../../providers/app_setting_provider.dart';
+import '../../../../providers/user_provider.dart';
 import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_colors.dart';
+import '../../../../utils/app_routes.dart';
 import '../../../../utils/app_text_styles.dart';
+import '../../../../utils/dialog_utils.dart';
 import '../../../../utils/responsive.dart';
 
 class ProfileTab extends StatelessWidget {
@@ -15,6 +18,8 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -40,7 +45,7 @@ class ProfileTab extends StatelessWidget {
             ),
             Text(
               textAlign: TextAlign.center,
-              "Mohammed Elshabrawy",
+              userProvider.currentUser!.name,
               style: AppTextStyles.sB20.copyWith(
                 color: appSettingsProvider.isLight
                     ? AppColors.mainTextColor
@@ -49,7 +54,7 @@ class ProfileTab extends StatelessWidget {
             ),
             Text(
               textAlign: TextAlign.center,
-              "Email@Email.com",
+              userProvider.currentUser!.email,
               style: AppTextStyles.r14.copyWith(
                 color: appSettingsProvider.isLight
                     ? AppColors.secTextColor
@@ -92,7 +97,17 @@ class ProfileTab extends StatelessWidget {
               label: 'logout',
               widget: IconButton(
                 onPressed: () {
-                  SystemNavigator.pop();
+                  DialogUtils.showEnsureDialog(
+                    context: context,
+                    appSettingsProvider: appSettingsProvider,
+                    positiveAction: () {
+                      logout(userProvider,context);
+                    },
+                    title: "logout",
+                    content: "are_you_sure_to_logout",
+                    positiveText: 'logout',
+                    negativeText: 'cancel',
+                  );
                 },
                 icon: Icon(Icons.logout_outlined, color: AppColors.redColor),
               ),
@@ -156,6 +171,15 @@ class ProfileTab extends StatelessWidget {
           },
         );
       },
+    );
+  }
+
+  void logout(UserProvider userProvider, BuildContext context) {
+    userProvider.updateUser(MyUser(name: '', email: ''));
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      AppRoutes.loginRoute,
+      (route) => false,
     );
   }
 }

@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/models/user_model.dart';
 import 'package:evently/utils/app_assets.dart';
+import 'package:evently/utils/snack_bar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../firebase_utils.dart';
 import '../../../functions/get_image/get_image.dart';
 import '../../../providers/app_setting_provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_routes.dart';
 import '../../../utils/app_text_styles.dart';
@@ -13,6 +16,7 @@ import '../../../widget/custom_elevated_button.dart';
 import '../../../widget/custom_text_form_filed.dart';
 import '../widget/custom_divider.dart';
 import '../../../widget/custom_text_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -22,10 +26,18 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController nameController = TextEditingController(
+    text: "mohammed",
+  );
+  TextEditingController emailController = TextEditingController(
+    text: "mohammed@gmail.com",
+  );
+  TextEditingController passwordController = TextEditingController(
+    text: "123456",
+  );
+  TextEditingController confirmPasswordController = TextEditingController(
+    text: "123456",
+  );
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
@@ -146,17 +158,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   CustomElevatedButton(
                     text: "signup",
                     onButtonPressed: () {
-                      formKey.currentState!.validate();
-                      MyUser user = MyUser(
-                        name: nameController.text,
-                        email: emailController.text,
-                      );
-                      /*Navigator.pushNamedAndRemoveUntil(
+                      register(appSettingsProvider);
+                    },
+                    /*Navigator.pushNamedAndRemoveUntil(
                         context,
                         AppRoutes.forgotPasswordRoute,
                         (route) => false,
                       );*/
-                    },
                   ),
                   SizedBox(height: 30 * context.screenHeightRatio),
                   Row(
@@ -194,5 +202,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  void register(AppSettingProvider appSettingsProvider) async {
+    if (formKey.currentState!.validate()) {
+      SnackBarUtils.showSnackBarLoading(
+        context: context,
+        appSettingsProvider: appSettingsProvider,
+      );
+      try {
+        final credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text,
+            );
+        MyUser myUser = MyUser(
+          id: credential.user!.uid,
+          name: nameController.text.trim(),
+          email: emailController.text.trim(),
+        );
+        await FirebaseUtils.addUserToFireStore(myUser);
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.updateUser(myUser);
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        SnackBarUtils.showSnackBar(
+          context: context,
+          appSettingsProvider: appSettingsProvider,
+          message: "success_register",
+        );
+        Navigator.pushReplacementNamed(context, AppRoutes.homeLayoutRoute);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          SnackBarUtils.showSnackBar(
+            context: context,
+            appSettingsProvider: appSettingsProvider,
+            message: "the_password_provided_is_too_weak.",
+            isError: true,
+          );
+        } else if (e.code == 'email-already-in-use') {
+          SnackBarUtils.showSnackBar(
+            context: context,
+            appSettingsProvider: appSettingsProvider,
+            message: "the_account_already_exists_for_that_email.",
+            isError: true,
+          );
+        }
+      } catch (e) {
+        SnackBarUtils.showSnackBar(
+          context: context,
+          appSettingsProvider: appSettingsProvider,
+          message: e.toString(),
+          isError: true,
+        );
+      }
+    }
   }
 }

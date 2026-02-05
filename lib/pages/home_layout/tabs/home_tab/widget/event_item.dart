@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../../firebase_utils.dart';
 import '../../../../../models/event_model.dart';
 import '../../../../../providers/app_setting_provider.dart';
+import '../../../../../providers/user_provider.dart';
 import '../../../../../utils/app_routes.dart';
 import '../../../../../utils/app_text_styles.dart';
 import '../../../../../utils/responsive.dart';
@@ -16,7 +17,9 @@ class EventItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     return InkWell(
+      borderRadius: BorderRadius.circular(16),
       onTap: () {
         Navigator.pushNamed(
           context,
@@ -110,6 +113,7 @@ class EventItem extends StatelessWidget {
                         event,
                         context,
                         appSettingsProvider,
+                        userProvider.currentUser!.id,
                       );
                     },
                     icon: Icon(

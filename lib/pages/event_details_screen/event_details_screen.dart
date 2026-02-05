@@ -5,6 +5,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import '../../firebase_utils.dart';
 import '../../providers/app_setting_provider.dart';
+import '../../providers/user_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../utils/app_text_styles.dart';
@@ -23,6 +24,8 @@ class EventDetailsScreen extends StatelessWidget {
     final dateTime = format.parse(event.time);
 
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         actionsPadding: EdgeInsets.symmetric(
@@ -67,9 +70,11 @@ class EventDetailsScreen extends StatelessWidget {
             ),
             isLeading: false,
             onPressed: () {
-              ///todo:delete event
-              ///todo:show dialog
-              DialogUtils.showDeleteDialog(
+              DialogUtils.showEnsureDialog(
+                positiveText: 'delete',
+                negativeText: 'cancel',
+                title: 'delete_event',
+                content: 'are_you_sure_to_delete',
                 context: context,
                 appSettingsProvider: appSettingsProvider,
                 positiveAction: () {
@@ -77,8 +82,8 @@ class EventDetailsScreen extends StatelessWidget {
                     event.id,
                     context,
                     appSettingsProvider,
+                    userProvider.currentUser!.id,
                   );
-
                 },
               );
             },

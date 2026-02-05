@@ -8,6 +8,7 @@ import 'package:evently/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/app_setting_provider.dart';
+import '../../../../providers/user_provider.dart';
 import '../../../../utils/responsive.dart';
 import '../../../../widget/tab_widget.dart';
 
@@ -44,6 +45,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     var appSettingsProvider = Provider.of<AppSettingProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +70,7 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     ),
                     Text(
-                      "mohammed Elshabrawy",
+                      userProvider.currentUser!.name,
                       style: AppTextStyles.m20.copyWith(
                         color: appSettingsProvider.isLight
                             ? AppColors.mainTextColor
@@ -112,6 +114,7 @@ class _HomeTabState extends State<HomeTab> {
                 initialIndex: selectedIndex,
                 length: index.length,
                 child: TabBar(
+                  splashBorderRadius: BorderRadius.circular(16),
                   tabs: index.map((index) {
                     return TabWidget(
                       title: categories[index],
@@ -139,8 +142,11 @@ class _HomeTabState extends State<HomeTab> {
       ),
       body: StreamBuilder<QuerySnapshot<Event>>(
         stream: selectedIndex == 0
-            ? FirebaseUtils.getEventsCollection().snapshots()
-            : FirebaseUtils.getEventsCollection()
+            ? FirebaseUtils.getEventsCollection(
+                userProvider.currentUser!.id,
+              ).orderBy('date').snapshots()
+            : FirebaseUtils.getEventsCollection(userProvider.currentUser!.id)
+                  .orderBy('date')
                   .where('name', isEqualTo: categories[selectedIndex])
                   .snapshots(),
         builder: (context, snapshot) {
